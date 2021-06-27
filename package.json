@@ -1,0 +1,43 @@
+{
+  "name": "l99_exampletsproject",
+  "version": "1.0.0",
+  "description": "example project for ts programming in softwaredesign course",
+  "main": "main.js",
+  "scripts": {
+    "start": "ts-node-dev --respawn --transpile-only ./src/Main.ts",
+    "debug": "tsc",
+    "build:prod": "webpack --mode=production --progress",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/lodash": "^4.14.165",
+    "@types/node": "^14.11.8",
+    "@types/uuid": "^8.3.0",
+    "@types/webpack": "^4.41.25",
+    "lodash": "^4.17.20",
+    "ts-loader": "^8.0.11",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0",
+    "tslint": "^6.1.3",
+    "uuid": "^8.3.1",
+    "webpack": "^5.5.1",
+    "webpack-cli": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.4",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CalvinDO/SoftwareDesignEndabgabe.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/CalvinDO/SoftwareDesignEndabgabe/issues"
+  },
+  "homepage": "https://github.com/CalvinDO/SoftwareDesignEndabgabe#readme"
+}
