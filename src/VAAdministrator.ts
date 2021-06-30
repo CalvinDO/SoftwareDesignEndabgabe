@@ -1,4 +1,5 @@
 import ConsoleHandling from "./ConsoleHandling";
+import FileHandler from "./FileHandler";
 import { VAUser } from "./VAUser";
 import { VADate } from "./VADate";
 import { exception } from "console";
@@ -10,37 +11,42 @@ export class VAAdministrator extends VAUser {
     public static username: string = "MaxDerBoss";
     public static password: string = "ichbinboss";
 
+    public appointmentDB: VAAppointmentSalve[] = [];
+
     constructor() {
         super();
         this.startMenu();
     }
 
     private async startMenu(): Promise<void> {
-        
-        switch ((await ConsoleHandling.showPossibilities(["Create Appointments (C)", "Select a day to display detail (D)", "View Statistics (S)"], `Hello ${VAAdministrator.username} ! :) What do you want to do?`)).toUpperCase()) {
-            case "C":
-                try {
+        try {
+            switch ((await ConsoleHandling.showPossibilities(["Create Appointments (C)", "Select a day to display detail (D)", "View Statistics (S)"], `Hello ${VAAdministrator.username} ! :) What do you want to do?`)).toUpperCase()) {
+                case "C":
+
                     await this.createAppointments();
-                } catch (error) {
-                    if (error.message == "exit") {
-                        ConsoleHandling.printInput("");
-                        ConsoleHandling.printInput("You chose to exit the appointment creation!");
-                        ConsoleHandling.printInput("");
-        
-                    } else {
-                        ConsoleHandling.printInput("Unkown system error!");
-                    }
-                }
-                break;
-            case "D":
-                this.selectDayToDisplay();
-                break;
-            case "S":
-                this.viewStatistics();
-                break;
-            default:
-                ConsoleHandling.printInput("Invalid input! Please try again!");
-                break;
+
+                    break;
+                case "D":
+
+                    await this.selectDayToDisplay();
+
+                    break;
+                case "S":
+                    this.viewStatistics();
+                    break;
+                default:
+                    ConsoleHandling.printInput("Invalid input! Please try again!");
+                    break;
+            }
+        } catch (error) {
+            if (error.message == "exit") {
+                ConsoleHandling.printInput("");
+                ConsoleHandling.printInput("You chose to exit!");
+                ConsoleHandling.printInput("");
+
+            } else {
+                ConsoleHandling.printInput(`Unkown system error: ${error.message}`);
+            }
         }
 
         ConsoleHandling.printInput("Returning to the administrator start menu.");
@@ -61,12 +67,41 @@ export class VAAdministrator extends VAUser {
 
         this.printVaccinationCreationState(date, startTime, endTime, totalVaccinations, timeInterval);
 
-        this.generateAppointmentSalves(date, startTime, endTime, totalVaccinations, timeInterval);
+        let salves: VAAppointmentSalve[] = this.generateAppointmentSalves(date, startTime, endTime, totalVaccinations, timeInterval);
+        this.addSalvesToJSON(salves);
     }
 
-    private async getAppointmentDataOf(_name: string): Promise<VADate | VATime | number> {
+    private addSalvesToJSON(_salves: VAAppointmentSalve[]): void {
+        //console.log(JSON.stringify(_salves));
+
         try {
-            switch (_name) {
+            this.readUpdateAppointmentDB();
+            _salves.forEach(x => this.appointmentDB.push(x));
+
+        } catch (error) {
+            this.appointmentDB = _salves;
+        }
+
+        FileHandler.writeFile("appointmentDB.json", this.appointmentDB);
+
+        //FileHandler.writeFile("appointmentDB.json", _salves);
+    }
+
+    private readUpdateAppointmentDB(): void {
+        this.appointmentDB = <VAAppointmentSalve[]>FileHandler.readObjectFile("appointmentDB.json");
+
+    }
+
+    private async selectDayToDisplay(): Promise<void> {
+        ConsoleHandling.printInput("You chose to select a day");
+        ConsoleHandling.printInput("Which day would you like to select?");
+        let date: VADate = <VADate>await this.getAppointmentDataOf("date");
+        let appointmentsOfDay: VAAppointmentSalve[] = date.getAppointments();
+    }
+
+    private async getAppointmentDataOf(_dataSpecification: string): Promise<VADate | VATime | number> {
+        try {
+            switch (_dataSpecification) {
                 case "date":
 
                     return new VADate(await ConsoleHandling.question("Please type in the date in the following format: DD(.-/)MM(.-/)YYYY  "));
@@ -74,7 +109,7 @@ export class VAAdministrator extends VAUser {
 
                 case "endTime":
 
-                    return new VATime(await ConsoleHandling.question(`Please type in the ${_name} in the following format: HH:MM  `));
+                    return new VATime(await ConsoleHandling.question(`Please type in the ${_dataSpecification} in the following format: HH:MM  `));
                 case "totalVaccinations":
 
                     let totalVaccinations: string = await ConsoleHandling.question(`Please type in the total amount of simultaneous vaccinations being possible in your clinic! `);
@@ -106,10 +141,10 @@ export class VAAdministrator extends VAUser {
             ConsoleHandling.printInput("please try again!");
         }
 
-        return await this.getAppointmentDataOf(_name);
+        return await this.getAppointmentDataOf(_dataSpecification);
     }
 
-    private generateAppointmentSalves(_date: VADate, _startTime: VATime, _endTime: VATime, _totalVaccinations: number, _timeInterval: number): void {
+    private generateAppointmentSalves(_date: VADate, _startTime: VATime, _endTime: VATime, _totalVaccinations: number, _timeInterval: number): VAAppointmentSalve[] {
         let timeSpan: number = _startTime.getDifferenceTo(_endTime);
         ConsoleHandling.printInput(timeSpan.toString());
 
@@ -133,6 +168,8 @@ export class VAAdministrator extends VAUser {
         }
 
         ConsoleHandling.printInput("Appointment Generation finished!");
+
+        return salves;
     }
 
     private printVaccinationCreationState(_date: VADate, _startTime: VATime, _endTime: VATime, _totalVaccinations: number, _timeInterval: number) {
@@ -144,62 +181,7 @@ export class VAAdministrator extends VAUser {
         ConsoleHandling.printInput("");
     }
 
-    private async getDate(): Promise<VADate> {
-        try {
-            return new VADate(await ConsoleHandling.question("Please type in the date in the following format: DD(.-/)MM(.-/)YYYY  "));
-        } catch (error) {
-            ConsoleHandling.printInput(error.message);
-            ConsoleHandling.printInput("please try again!");
 
-            return await this.getDate();
-        }
-    }
-
-    private async getTime(_specification: string): Promise<VATime> {
-        try {
-            return new VATime(await ConsoleHandling.question(`Please type in the ${_specification} time in the following format: HH:MM  `));
-
-        } catch (error) {
-            ConsoleHandling.printInput(error.message);
-            ConsoleHandling.printInput("please try again!");
-
-            return await this.getTime(_specification);
-        }
-    }
-
-    private async getTotalVaccinations(): Promise<number> {
-        try {
-            let answer: string = await ConsoleHandling.question(`Please type in the total amount of vaccinations being possible in your clinic! `);
-            if (+answer !== parseInt(answer)) {
-                throw new Error("Your input is not a valid amount!");
-            }
-            return +answer;
-        } catch (error) {
-            ConsoleHandling.printInput(error.message);
-            ConsoleHandling.printInput("please try again!");
-
-            return await this.getTotalVaccinations();
-        }
-    }
-
-    private async getTimeInterval(): Promise<number> {
-        try {
-            let answer: string = await ConsoleHandling.question(`Please type in the time interval in minutes between the parallel vaccinations! `);
-            if (+answer !== parseInt(answer)) {
-                throw new Error("Your input is not a valid amount!");
-            }
-            return +answer;
-        } catch (error) {
-            ConsoleHandling.printInput(error.message);
-            ConsoleHandling.printInput("please try again!");
-
-            return await this.getTimeInterval();
-        }
-    }
-
-    private selectDayToDisplay(): void {
-
-    }
 
     private viewStatistics(): void {
 

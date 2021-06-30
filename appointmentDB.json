@@ -1,0 +1,382 @@
+[
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:12",
+            "hours": 10,
+            "minutes": 12
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:14",
+            "hours": 10,
+            "minutes": 14
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:16",
+            "hours": 10,
+            "minutes": 16
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:18",
+            "hours": 10,
+            "minutes": 18
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:20",
+            "hours": 10,
+            "minutes": 20
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:22",
+            "hours": 10,
+            "minutes": 22
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:24",
+            "hours": 10,
+            "minutes": 24
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:26",
+            "hours": 10,
+            "minutes": 26
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:28",
+            "hours": 10,
+            "minutes": 28
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:30",
+            "hours": 10,
+            "minutes": 30
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:32",
+            "hours": 10,
+            "minutes": 32
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:34",
+            "hours": 10,
+            "minutes": 34
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:36",
+            "hours": 10,
+            "minutes": 36
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:38",
+            "hours": 10,
+            "minutes": 38
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:40",
+            "hours": 10,
+            "minutes": 40
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:42",
+            "hours": 10,
+            "minutes": 42
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:44",
+            "hours": 10,
+            "minutes": 44
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:46",
+            "hours": 10,
+            "minutes": 46
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:48",
+            "hours": 10,
+            "minutes": 48
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    },
+    {
+        "date": {
+            "dateString": "12.2.2001",
+            "day": 12,
+            "month": 2,
+            "year": 2001
+        },
+        "startTime": {
+            "timeString": "10:50",
+            "hours": 10,
+            "minutes": 50
+        },
+        "endTime": {
+            "timeString": "10:52",
+            "hours": 10,
+            "minutes": 52
+        },
+        "totalVaccinations": 4
+    }
+]

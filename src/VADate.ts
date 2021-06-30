@@ -1,7 +1,9 @@
 import { exception } from "console";
 import { stringifyConfiguration } from "tslint/lib/configuration";
+import { VAAppointmentSalve } from "./VAAppointmentSalve";
 
 export class VADate {
+
     public year: number;
     public month: number;
     public day: number;
@@ -36,5 +38,10 @@ export class VADate {
 
     public toString(): string {
         return this.dateString;
+    }
+
+
+    public getAppointments(): VAAppointmentSalve[] {
+        return;
     }
 }
