@@ -11,12 +11,9 @@ export class VAUserManager {
         this.askForLogin();
     }
 
-    private async askForLogin(): Promise<boolean> {
-
+    private async askForLogin(): Promise<void> {
         try {
-
             switch ((await ConsoleHandling.showPossibilities(["Yes (Y)", "No (N)"], "Hello User! Welcome to the Vaccation Appointment Application!\nType 'exit' to exit at any time!\nAre you the administrator?")).toUpperCase()) {
-
                 case "Y":
 
                     ConsoleHandling.printInput("Please type in your username and password to verify that you are the administrator!");
@@ -27,23 +24,24 @@ export class VAUserManager {
                     } else {
 
                         ConsoleHandling.printInput("username or password is wrong! returning to the login screen.");
-                        this.askForLogin();
+                        await this.askForLogin();
                     }
 
-                    return false;
+                    return;
 
                 case "N":
                     this.currentUser = new VAImpfling();
-                    return false;
+                    return;
                 default:
                     ConsoleHandling.printInput("");
                     ConsoleHandling.printInput("Invalid input! Please try again!");
                     ConsoleHandling.printInput("");
                     break;
             }
-
         } catch (error: any) {
+
             if (error.message == "exit") {
+
                 ConsoleHandling.printInput("");
                 ConsoleHandling.printInput("You chose to exit!");
                 ConsoleHandling.printInput("");

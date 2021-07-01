@@ -11,7 +11,6 @@ export class VADate {
     public dateString: string;
 
     constructor(_dateString: string) {
-
         this.dateString = _dateString;
 
 
@@ -28,6 +27,18 @@ export class VADate {
         })
     }
 
+    public static dumbToSmartDate(_dumbDate: VADate): VADate {
+        return new VADate(_dumbDate.dateString);
+    }
+
+    public clone(): VADate {
+        return new VADate(this.dateString);
+    }
+
+    public equals(_date: VADate): boolean {
+        return JSON.stringify(this) == JSON.stringify(_date);
+    }
+
     private stringToYearMonthDay(_seperator: string): void {
         let splitted: string[] = this.dateString.split(_seperator);
 
@@ -41,7 +52,7 @@ export class VADate {
     }
 
 
-    public getAppointments(): VAAppointmentSalve[] {
+    private getAppointments(): VAAppointmentSalve[] {
         return;
     }
 }

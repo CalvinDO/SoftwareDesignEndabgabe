@@ -1,6 +1,7 @@
 import ConsoleHandling from "./ConsoleHandling";
 
 export class VATime {
+
     public hours: number;
     public minutes: number;
 
@@ -16,6 +17,10 @@ export class VATime {
         }
 
         this.stringToHoursMinutes(":");
+    }
+
+    public static dumbToSmartTime(_dumbTime: VATime): VATime {
+        return new VATime(_dumbTime.timeString);
     }
 
     private stringToHoursMinutes(_seperator: string): void {

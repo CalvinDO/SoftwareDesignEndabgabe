@@ -18,7 +18,6 @@ export class FileHandler {
 
   private readFile(pathToFile: string): any {
     let jsonRaw = fs.readFileSync(path.resolve(__dirname, "../" + pathToFile));
-    console.log(jsonRaw.toString());
     let json: any = JSON.parse(jsonRaw.toString());
     return json;
   }

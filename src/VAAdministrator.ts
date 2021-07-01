@@ -1,17 +1,15 @@
 import ConsoleHandling from "./ConsoleHandling";
-import FileHandler from "./FileHandler";
 import { VAUser } from "./VAUser";
 import { VADate } from "./VADate";
-import { exception } from "console";
 import { VATime } from "./VATime";
-import { Type } from "typescript";
 import { VAAppointmentSalve } from "./VAAppointmentSalve";
+import { VADatabase } from "./VADatabase";
+import { VAAppointmentDay } from "./VAAppointmentDay";
+import { VATimeSpan } from "./VATimeSpan";
 
 export class VAAdministrator extends VAUser {
     public static username: string = "MaxDerBoss";
     public static password: string = "ichbinboss";
-
-    public appointmentDB: VAAppointmentSalve[] = [];
 
     constructor() {
         super();
@@ -45,7 +43,7 @@ export class VAAdministrator extends VAUser {
                 ConsoleHandling.printInput("");
 
             } else {
-                ConsoleHandling.printInput(`Unkown system error: ${error.message}`);
+                throw error;
             }
         }
 
@@ -56,7 +54,7 @@ export class VAAdministrator extends VAUser {
     private async createAppointments(): Promise<void> {
         ConsoleHandling.printInput("You are trying to create new Appointments. Please follow the instructions below! Type in 'exit' to exit at any time!");
 
-        let date: VADate = <VADate>await this.getAppointmentDataOf("date");
+        let day: VAAppointmentDay = <VAAppointmentDay>await this.getAppointmentDataOf("date");
 
         let startTime: VATime = <VATime>await this.getAppointmentDataOf("startTime");
         let endTime: VATime = <VATime>await this.getAppointmentDataOf("endTime");
@@ -65,46 +63,34 @@ export class VAAdministrator extends VAUser {
 
         let timeInterval: number = <number>await this.getAppointmentDataOf("timeInterval");
 
-        this.printVaccinationCreationState(date, startTime, endTime, totalVaccinations, timeInterval);
+        this.printVaccinationCreationState(day.date, startTime, endTime, totalVaccinations, timeInterval);
 
-        let salves: VAAppointmentSalve[] = this.generateAppointmentSalves(date, startTime, endTime, totalVaccinations, timeInterval);
-        this.addSalvesToJSON(salves);
-    }
+        let timeSpans: VATimeSpan[] = this.generateTimeSpans(startTime, endTime, totalVaccinations, timeInterval);
+        day.addTimeSpans(timeSpans);
 
-    private addSalvesToJSON(_salves: VAAppointmentSalve[]): void {
-        //console.log(JSON.stringify(_salves));
+        day.print();
+        ConsoleHandling.printInput("");
 
-        try {
-            this.readUpdateAppointmentDB();
-            _salves.forEach(x => this.appointmentDB.push(x));
+        ConsoleHandling.printInput(`Appointment Generation finished! Generated ${timeSpans.length} time spans!`);
+        ConsoleHandling.printInput("Above you can see the time spans of the appointments you have generated:");
 
-        } catch (error) {
-            this.appointmentDB = _salves;
-        }
-
-        FileHandler.writeFile("appointmentDB.json", this.appointmentDB);
-
-        //FileHandler.writeFile("appointmentDB.json", _salves);
-    }
-
-    private readUpdateAppointmentDB(): void {
-        this.appointmentDB = <VAAppointmentSalve[]>FileHandler.readObjectFile("appointmentDB.json");
-
+        VADatabase.addDay(day);
     }
 
     private async selectDayToDisplay(): Promise<void> {
         ConsoleHandling.printInput("You chose to select a day");
         ConsoleHandling.printInput("Which day would you like to select?");
-        let date: VADate = <VADate>await this.getAppointmentDataOf("date");
-        let appointmentsOfDay: VAAppointmentSalve[] = date.getAppointments();
+
+        let date: VAAppointmentDay = <VAAppointmentDay>await this.getAppointmentDataOf("date");
+
     }
 
-    private async getAppointmentDataOf(_dataSpecification: string): Promise<VADate | VATime | number> {
+    private async getAppointmentDataOf(_dataSpecification: string): Promise<VAAppointmentDay | VATime | number> {
         try {
             switch (_dataSpecification) {
                 case "date":
-
-                    return new VADate(await ConsoleHandling.question("Please type in the date in the following format: DD(.-/)MM(.-/)YYYY  "));
+                    let date: VADate = new VADate(await ConsoleHandling.question("Please type in the date in the following format: DD(.-/)MM(.-/)YYYY  "));
+                    return new VAAppointmentDay(date);
                 case "startTime":
 
                 case "endTime":
@@ -136,40 +122,34 @@ export class VAAdministrator extends VAUser {
         } catch (error: any) {
             if (error.message == "exit") {
                 throw new Error("exit");
+            } else {
+                ConsoleHandling.printInput("unknown system error:");
+                throw error;
             }
-            ConsoleHandling.printInput(error.message);
-            ConsoleHandling.printInput("please try again!");
         }
 
         return await this.getAppointmentDataOf(_dataSpecification);
     }
 
-    private generateAppointmentSalves(_date: VADate, _startTime: VATime, _endTime: VATime, _totalVaccinations: number, _timeInterval: number): VAAppointmentSalve[] {
-        let timeSpan: number = _startTime.getDifferenceTo(_endTime);
-        ConsoleHandling.printInput(timeSpan.toString());
-
+    private generateTimeSpans(_startTime: VATime, _endTime: VATime, _totalVaccinations: number, _timeInterval: number): VATimeSpan[] {
         let newStartTime: VATime = _startTime.clone();
         let newEndTime: VATime = _startTime.clone();
-        let salves: VAAppointmentSalve[] = [];
+        let timeSpans: VATimeSpan[] = [];
 
         let index: number = 0;
-        while (newStartTime.getDifferenceTo(_endTime) > _timeInterval && index < 20) {
+        while (newStartTime.getDifferenceTo(_endTime) >= _timeInterval) {
 
             newEndTime.addMinutes(_timeInterval);
 
-            let newSalve: VAAppointmentSalve = new VAAppointmentSalve(_date, newStartTime, newEndTime, _totalVaccinations);
-            salves.push(newSalve);
+            let newTimeSpan: VATimeSpan = new VATimeSpan(newStartTime, newEndTime, _totalVaccinations);
+            timeSpans.push(newTimeSpan);
 
             newStartTime = newEndTime.clone();
-
-            newSalve.print();
 
             index++;
         }
 
-        ConsoleHandling.printInput("Appointment Generation finished!");
-
-        return salves;
+        return timeSpans;
     }
 
     private printVaccinationCreationState(_date: VADate, _startTime: VATime, _endTime: VATime, _totalVaccinations: number, _timeInterval: number) {
@@ -180,8 +160,6 @@ export class VAAdministrator extends VAUser {
         ConsoleHandling.printInput(`Vaccinating ${_totalVaccinations} people all ${_timeInterval} minutes!`);
         ConsoleHandling.printInput("");
     }
-
-
 
     private viewStatistics(): void {
 

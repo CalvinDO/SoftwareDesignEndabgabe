@@ -12,8 +12,8 @@ export class VAAppointmentSalve{
 
 	constructor(_date: VADate, _startTime: VATime, _endTime: VATime, _totalVaccinations: number) {
 		this.date = _date;
-		this.startTime = _startTime;
-		this.endTime = _endTime;
+		this.startTime = _startTime.clone();
+		this.endTime = _endTime.clone();
 		this.totalVaccinations = _totalVaccinations;
 	}
 
