@@ -2,7 +2,6 @@ import ConsoleHandling from "./ConsoleHandling";
 import { VAUser } from "./VAUser";
 import { VADate } from "./VADate";
 import { VATime } from "./VATime";
-import { VAAppointmentSalve } from "./VAAppointmentSalve";
 import { VADatabase } from "./VADatabase";
 import { VAAppointmentDay } from "./VAAppointmentDay";
 import { VATimeSpan } from "./VATimeSpan";
@@ -72,7 +71,8 @@ export class VAAdministrator extends VAUser {
         ConsoleHandling.printInput("");
 
         ConsoleHandling.printInput(`Appointment Generation finished! Generated ${timeSpans.length} time spans!`);
-        ConsoleHandling.printInput("Above you can see the time spans of the appointments you have generated:");
+        ConsoleHandling.printInput("Above you can see the time spans of the appointments you have generated");
+
 
         VADatabase.addDay(day);
     }
@@ -123,8 +123,7 @@ export class VAAdministrator extends VAUser {
             if (error.message == "exit") {
                 throw new Error("exit");
             } else {
-                ConsoleHandling.printInput("unknown system error:");
-                throw error;
+                ConsoleHandling.printInput("unknown system error: " + error.message);
             }
         }
 
@@ -146,6 +145,7 @@ export class VAAdministrator extends VAUser {
 
             newStartTime = newEndTime.clone();
 
+            newTimeSpan.print();
             index++;
         }
 
@@ -154,9 +154,9 @@ export class VAAdministrator extends VAUser {
 
     private printVaccinationCreationState(_date: VADate, _startTime: VATime, _endTime: VATime, _totalVaccinations: number, _timeInterval: number) {
         ConsoleHandling.printInput("");
-        ConsoleHandling.printInput(`Date: ${_date.dateString}`);
-        ConsoleHandling.printInput(`Time start: ${_startTime.timeString}`);
-        ConsoleHandling.printInput(`Time end: ${_endTime.timeString}`);
+        ConsoleHandling.printInput(`Date: ${_date.toString()}`);
+        ConsoleHandling.printInput(`Time start: ${_startTime.toString()}`);
+        ConsoleHandling.printInput(`Time end: ${_endTime.toString()}`);
         ConsoleHandling.printInput(`Vaccinating ${_totalVaccinations} people all ${_timeInterval} minutes!`);
         ConsoleHandling.printInput("");
     }

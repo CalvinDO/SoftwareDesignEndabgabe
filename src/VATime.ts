@@ -2,10 +2,10 @@ import ConsoleHandling from "./ConsoleHandling";
 
 export class VATime {
 
-    public hours: number;
-    public minutes: number;
+    private hours: number;
+    private minutes: number;
 
-    public timeString: string;
+    private timeString: string;
 
     constructor(_timeString: string) {
         this.timeString = _timeString;
@@ -42,6 +42,12 @@ export class VATime {
         return this.timeString;
     }
 
+    private updateString(): void {
+        let leadingHourPrefix: string = this.hours < 10 ? "0" : "";
+        let leadingMinutePrefix: string = this.minutes < 10 ? "0" : "";
+        this.timeString = `${leadingHourPrefix}${this.hours}:${leadingMinutePrefix}${this.minutes}`;
+    }
+
     public addMinutes(_minutes: number): void {
         this.minutes += _minutes;
         let overflowFactor: number = Math.floor(this.minutes / 60);
@@ -52,9 +58,11 @@ export class VATime {
         this.updateString();
     }
 
-    private updateString(): void {
-        let leadingHourPrefix: string = this.hours < 10 ? "0" : "";
-        let leadingMinutePrefix: string = this.minutes < 10 ? "0" : "";
-        this.timeString = `${leadingHourPrefix}${this.hours}:${leadingMinutePrefix}${this.minutes}`;
+    public isZeroInMorning(): boolean {
+        return (this.hours == 0 && this.minutes == 0);
+    }
+
+    public is59InNight(): boolean {
+        return (this.hours == 23 && this.minutes == 59);
     }
 }

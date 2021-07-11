@@ -7,34 +7,36 @@ import { VATimeSpan } from "./VATimeSpan";
 
 export class VAAppointmentDay {
 
-
     public date: VADate;
     private timeSpans: VATimeSpan[];
 
-
+    public isNewInstance: boolean;
 
     constructor(_date: VADate) {
         this.date = _date.clone();
         this.timeSpans = [];
+        this.isNewInstance = true;
 
         if (VADatabase.appointmentDB && VADatabase.appointmentDB.length > 0) {
             let foundDay: VAAppointmentDay = VADatabase.getAppointmentDay(_date);
-            console.log(foundDay);
-            
+
             if (foundDay) {
-                console.log("lololo");
                 ConsoleHandling.printInput("This day already has appointments. We will add your new appointments to this day!");
 
-                if (foundDay.isJammed()) {
-                    ConsoleHandling.printInput("This day is jammed from 00:00 to 24:00");
-                    throw new Error("DayJammedError");
-                }
-
-                return foundDay;
+                return this.proceedWithFoundDay(foundDay);
             }
         }
     }
 
+
+    private proceedWithFoundDay(foundDay: VAAppointmentDay): VAAppointmentDay {
+        if (foundDay.isJammed()) {
+            ConsoleHandling.printInput("This day is jammed from 00:00 to 24:00");
+            throw new Error("DayJammedError");
+        }
+        foundDay.isNewInstance = false;
+        return foundDay;
+    }
 
     public static dumbToSmartDay(_dumbDay: VAAppointmentDay): VAAppointmentDay {
         let smartDay: VAAppointmentDay = new VAAppointmentDay(VADate.dumbToSmartDate(_dumbDay.date));
@@ -44,10 +46,13 @@ export class VAAppointmentDay {
 
 
     public isJammed(): boolean {
+
         let amountTimeSpans: number = this.timeSpans.length;
+
         if (!this.timeSpans[0].beginsAtZeroInMorning() || !this.timeSpans[amountTimeSpans].endsAt59InNight()) {
             return false;
         }
+
         this.timeSpans.forEach(timeSpan => {
             let currentIndex: number = this.timeSpans.indexOf(timeSpan);
             let nextTimeSpan: VATimeSpan = this.timeSpans[currentIndex + 1];
@@ -56,7 +61,7 @@ export class VAAppointmentDay {
                 return true;
             }
 
-            if (timeSpan.endTime != nextTimeSpan.startTime) {
+            if (!timeSpan.borders(nextTimeSpan)) {
                 return false;
             }
         })
@@ -79,6 +84,10 @@ export class VAAppointmentDay {
             this.timeSpans = _timeSpans;
             return;
         }
-        this.timeSpans.concat(_timeSpans);
+        this.timeSpans = this.timeSpans.concat(_timeSpans);
+    }
+
+    public isOnSameDateLike(_date: VADate): boolean {
+        return this.date.equals(_date);
     }
 }

@@ -5,18 +5,16 @@ import { VATime } from "./VATime";
 
 export class VATimeSpan {
 
-    public startTime: VATime;
-    public endTime: VATime;
-    public totalVaccinations: number;
-    public registeredEmails: string[];
+    private startTime: VATime;
+    private endTime: VATime;
+    private totalVaccinations: number;
+    private registeredEmails: string[];
 
     constructor(_startTime: VATime, _endTime: VATime, _totalVaccinations: number) {
         this.startTime = _startTime.clone();
         this.endTime = _endTime.clone();
         this.totalVaccinations = _totalVaccinations;
     }
-
-
 
     public static dumbToSmartSpans(_dumbSpans: VATimeSpan[]): VATimeSpan[] {
         let smartSpans: VATimeSpan[] = [];
@@ -33,20 +31,18 @@ export class VATimeSpan {
 
 
     public beginsAtZeroInMorning(): boolean {
-        if (this.startTime.hours == 0 && this.startTime.minutes == 0) {
-            return true;
-        }
-        return false;
+        return this.startTime.isZeroInMorning();
     }
 
     public endsAt59InNight(): boolean {
-        if (this.endTime.hours == 23 && this.startTime.minutes == 59) {
-            return true;
-        }
-        return false;
+        return this.endTime.is59InNight();
     }
 
     public print(): void {
         ConsoleHandling.printInput(`Vaccinating ${this.totalVaccinations} people between ${this.startTime.toString()} and ${this.endTime.toString()}`)
+    }
+
+    public borders(_nextSpan: VATimeSpan): boolean {
+        return this.endTime == _nextSpan.startTime;
     }
 }

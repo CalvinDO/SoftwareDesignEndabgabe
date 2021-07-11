@@ -2,7 +2,6 @@ import { F_OK } from "constants";
 import ConsoleHandling from "./ConsoleHandling";
 import FileHandler from "./FileHandler";
 import { VAAppointmentDay } from "./VAAppointmentDay";
-import { VAAppointmentSalve } from "./VAAppointmentSalve";
 import { VADate } from "./VADate";
 
 export class VADatabase {
@@ -10,15 +9,23 @@ export class VADatabase {
 
 
     public static addDay(_appointmentDay: VAAppointmentDay): void {
-        this.appointmentDB.push(_appointmentDay);
+
+        if (_appointmentDay.isNewInstance) {
+            this.appointmentDB.push(_appointmentDay);
+        }
+        
         this.DBToJSON();
     }
 
     public static getAppointmentDay(_date: VADate): VAAppointmentDay {
-        for (let day of this.appointmentDB) {
-            if (day.date.equals(_date)) {
+        for (let index: number = 0; index < this.appointmentDB.length; index++) {
+            let day: VAAppointmentDay = this.appointmentDB[index];
+            if (day.isOnSameDateLike(_date)) {
                 return day;
             }
+        }
+        for (let day of this.appointmentDB) {
+
         }
 
         return null;
@@ -42,10 +49,10 @@ export class VADatabase {
     private static printDB(): void {
         ConsoleHandling.printInput(JSON.stringify(this.appointmentDB));
     }
+
     private static DBToJSON(): void {
         FileHandler.writeFile("appointmentDB.json", this.appointmentDB);
     }
-
 
     private static JSONToDB(): void {
 
@@ -56,14 +63,5 @@ export class VADatabase {
         })
 
         this.appointmentDB = smartAppointmentDB;
-    }
-
-
-    private static isDateJammed(): boolean {
-        return true;
-    }
-
-    private static isTimeJammed(): boolean {
-        return true;
     }
 }
