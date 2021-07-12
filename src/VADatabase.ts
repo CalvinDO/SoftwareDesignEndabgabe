@@ -13,19 +13,17 @@ export class VADatabase {
         if (_appointmentDay.isNewInstance) {
             this.appointmentDB.push(_appointmentDay);
         }
-        
+
         this.DBToJSON();
     }
 
     public static getAppointmentDay(_date: VADate): VAAppointmentDay {
-        for (let index: number = 0; index < this.appointmentDB.length; index++) {
-            let day: VAAppointmentDay = this.appointmentDB[index];
+
+        for (let day of this.appointmentDB) {
+            
             if (day.isOnSameDateLike(_date)) {
                 return day;
             }
-        }
-        for (let day of this.appointmentDB) {
-
         }
 
         return null;

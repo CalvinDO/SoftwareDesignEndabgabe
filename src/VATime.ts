@@ -30,7 +30,7 @@ export class VATime {
         this.minutes = +splitted[1];
     }
 
-    public getDifferenceTo(_secondTime: VATime): number {
+    public getMinutesUntil(_secondTime: VATime): number {
         return (_secondTime.hours - this.hours) * 60 + _secondTime.minutes - this.minutes;
     }
 

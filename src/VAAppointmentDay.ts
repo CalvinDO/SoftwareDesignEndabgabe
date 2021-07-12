@@ -68,6 +68,16 @@ export class VAAppointmentDay {
 
     }
 
+    public isTimeJammed(_time: VATime | VATimeSpan): boolean {
+        this.timeSpans.forEach(span => {
+            if (span.overlaps(_time)) {
+                return true;
+            }
+        });
+
+        return false;
+    }
+
     public print(): void {
         ConsoleHandling.printInput(`Date: ${this.date.toString()}`);
 
@@ -80,10 +90,6 @@ export class VAAppointmentDay {
     }
 
     public addTimeSpans(_timeSpans: VATimeSpan[]): void {
-        if (this.timeSpans.length <= 0) {
-            this.timeSpans = _timeSpans;
-            return;
-        }
         this.timeSpans = this.timeSpans.concat(_timeSpans);
     }
 
