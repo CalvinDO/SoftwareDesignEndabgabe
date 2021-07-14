@@ -1,7 +1,6 @@
-import ConsoleHandling from "./ConsoleHandling";
+import { VAAdministrator } from "./VAAdministrator";
 
 export class VATime {
-
     private hours: number;
     private minutes: number;
 
@@ -30,8 +29,20 @@ export class VATime {
         this.minutes = +splitted[1];
     }
 
+    private updateString(): void {
+        let leadingHourPrefix: string = this.hours < 10 ? "0" : "";
+        let leadingMinutePrefix: string = this.minutes < 10 ? "0" : "";
+        this.timeString = `${leadingHourPrefix}${this.hours}:${leadingMinutePrefix}${this.minutes}`;
+    }
+
     public getMinutesUntil(_secondTime: VATime): number {
         return (_secondTime.hours - this.hours) * 60 + _secondTime.minutes - this.minutes;
+    }
+
+    public checkIfInsideDayTimeSpans(_dataSpecification: string) {
+        if (VAAdministrator.currentEditedDay.isTimeJammed(this)) {
+            throw new Error(`your  ${_dataSpecification} is jammed!`);
+        }
     }
 
     public clone(): VATime {
@@ -42,11 +53,6 @@ export class VATime {
         return this.timeString;
     }
 
-    private updateString(): void {
-        let leadingHourPrefix: string = this.hours < 10 ? "0" : "";
-        let leadingMinutePrefix: string = this.minutes < 10 ? "0" : "";
-        this.timeString = `${leadingHourPrefix}${this.hours}:${leadingMinutePrefix}${this.minutes}`;
-    }
 
     public addMinutes(_minutes: number): void {
         this.minutes += _minutes;

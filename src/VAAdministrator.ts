@@ -11,7 +11,7 @@ export class VAAdministrator extends VAUser {
     public static username: string = "MaxDerBoss";
     public static password: string = "ichbinboss";
 
-    public currentEditedDay: VAAppointmentDay;
+    public static currentEditedDay: VAAppointmentDay;
 
     constructor() {
         super();
@@ -56,34 +56,27 @@ export class VAAdministrator extends VAUser {
     private async createAppointments(): Promise<void> {
         ConsoleHandling.printInput("You are trying to create new Appointments. Please follow the instructions below! Type in 'exit' to exit at any time!");
 
-        this.currentEditedDay = <VAAppointmentDay>await this.getAppointmentDataOf("date");
+        VAAdministrator.currentEditedDay = <VAAppointmentDay>await this.getAppointmentDataOf("date");
 
-        let timeSpan: VATimeSpan = await this.getTimeSpan();
+        let timeSpan: VATimeSpan = <VATimeSpan>await this.getAppointmentDataOf("timeSpan");
 
         let totalVaccinations: number = <number>await this.getAppointmentDataOf("totalVaccinations");
 
         let timeInterval: number = <number>await this.getAppointmentDataOf("timeInterval");
 
-        this.printVaccinationCreationState(this.currentEditedDay.date, timeSpan, totalVaccinations, timeInterval);
+        this.printVaccinationCreationState(VAAdministrator.currentEditedDay.date, timeSpan, totalVaccinations, timeInterval);
 
         let timeSpans: VATimeSpan[] = this.generateTimeSpans(timeSpan, totalVaccinations, timeInterval);
-        this.currentEditedDay.addTimeSpans(timeSpans);
+        VAAdministrator.currentEditedDay.addTimeSpans(timeSpans);
 
-        this.currentEditedDay.print();
+        VAAdministrator.currentEditedDay.print();
         ConsoleHandling.printInput("");
 
         ConsoleHandling.printInput(`Appointment Generation finished! Generated ${timeSpans.length} time spans!`);
         ConsoleHandling.printInput("Above you can see the time spans of the appointments you have generated");
 
 
-        VADatabase.addDay(this.currentEditedDay);
-    }
-
-    private async getTimeSpan(): Promise<VATimeSpan> {
-        //span anlegen, im Konstruktor von VATimeSpan implementieren, dass ein Error geworfen wird, wenn die timespan mit dem globalem Day overlapt
-        let timeSpan: VATimeSpan = await new VATimeSpan(<VATime>await this.getAppointmentDataOf("startTime"), <VATime>await this.getAppointmentDataOf("endTime"));
-        return timeSpan;
-
+        VADatabase.addDay(VAAdministrator.currentEditedDay);
     }
 
     private async selectDayToDisplay(): Promise<void> {
@@ -94,7 +87,7 @@ export class VAAdministrator extends VAUser {
 
     }
 
-    private async getAppointmentDataOf(_dataSpecification: string): Promise<VAAppointmentDay | VATime | number> {
+    private async getAppointmentDataOf(_dataSpecification: string): Promise<VAAppointmentDay | VATime | VATimeSpan | number> {
         try {
             switch (_dataSpecification) {
                 case "date":
@@ -107,12 +100,13 @@ export class VAAdministrator extends VAUser {
                 case "endTime":
 
                     let time: VATime = new VATime(await ConsoleHandling.question(`Please type in the ${_dataSpecification} in the following format: HH:MM  `));
-
-                    if (this.currentEditedDay.isTimeJammed(time)) {
-                        throw new Error(`your  ${_dataSpecification} is jammed!`);
-                    }
+                    time.checkIfInsideDayTimeSpans(_dataSpecification);
 
                     return time;
+                case "timeSpan":
+                    let timeSpan: VATimeSpan = new VATimeSpan(<VATime>await this.getAppointmentDataOf("startTime"), <VATime>await this.getAppointmentDataOf("endTime"));
+                    timeSpan.checkIfOverlapDayTimeSpans();
+                    return timeSpan;
                 case "totalVaccinations":
 
                     let totalVaccinations: string = await ConsoleHandling.question(`Please type in the total amount of simultaneous vaccinations being possible in your clinic! `);

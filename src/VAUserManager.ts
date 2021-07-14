@@ -47,7 +47,7 @@ export class VAUserManager {
                 ConsoleHandling.printInput("");
 
             } else {
-                ConsoleHandling.printInput("Unkown system error!");
+                ConsoleHandling.printInput("Unkown system error! " + error.message);
             }
         }
 
@@ -57,9 +57,11 @@ export class VAUserManager {
     }
 
     private async signIn(_name: string, _password: string): Promise<boolean> {
+
         if (_name != VAAdministrator.username) {
             return false;
         }
+        
         if (_password != VAAdministrator.password) {
             return false;
         }

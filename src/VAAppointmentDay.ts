@@ -69,11 +69,12 @@ export class VAAppointmentDay {
     }
 
     public isTimeJammed(_time: VATime | VATimeSpan): boolean {
-        this.timeSpans.forEach(span => {
+        for (let span of this.timeSpans) {
+
             if (span.overlaps(_time)) {
                 return true;
             }
-        });
+        }
 
         return false;
     }

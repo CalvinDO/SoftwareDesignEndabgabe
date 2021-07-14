@@ -20,6 +20,12 @@ export class VATimeSpan {
         this.totalVaccinations = _totalVaccinations;
     }
 
+    public checkIfOverlapDayTimeSpans(): void {
+        if (VAAdministrator.currentEditedDay.isTimeJammed(this)) {
+            throw new Error(`Your requested time span overlaps with already jammed time spans on your selected day: ${VAAdministrator.currentEditedDay.date}`);
+        }
+    }
+
     public static dumbToSmartSpans(_dumbSpans: VATimeSpan[]): VATimeSpan[] {
         let smartSpans: VATimeSpan[] = [];
         _dumbSpans.forEach(dumbSpan => {
@@ -32,8 +38,6 @@ export class VATimeSpan {
     public static dumbToSmartSpan(_dumbSpan: VATimeSpan): VATimeSpan {
         return new VATimeSpan(VATime.dumbToSmartTime(_dumbSpan.startTime), VATime.dumbToSmartTime(_dumbSpan.endTime), _dumbSpan.totalVaccinations);
     }
-
-
 
     public beginsAtZeroInMorning(): boolean {
         return this.startTime.isZeroInMorning();
@@ -57,12 +61,16 @@ export class VATimeSpan {
     }
 
     public overlaps(_time: (VATime | VATimeSpan)): boolean {
-        if (typeof _time === typeof VATime) {
+        console.log("timeee: " + _time);
+
+        if (_time instanceof VATime) {
+            console.log("type is VATime");
             let time: VATime = <VATime>_time;
             return (this.startTime.getMinutesUntil(time) > 0 && this.endTime.getMinutesUntil(time) < 0);
         }
 
-        if (typeof _time === typeof VATimeSpan) {
+        if (_time instanceof VATimeSpan) {
+            console.log("type is VATimeSpan");
             let timeSpan: VATimeSpan = <VATimeSpan>_time;
             return (timeSpan.overlaps(this.startTime) || timeSpan.overlaps(this.endTime));
         }

@@ -9,79 +9,1078 @@
         "timeSpans": [
             {
                 "startTime": {
+                    "timeString": "10:00",
+                    "hours": 10,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "10:05",
+                    "hours": 10,
+                    "minutes": 5
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "10:05",
+                    "hours": 10,
+                    "minutes": 5
+                },
+                "endTime": {
+                    "timeString": "10:10",
+                    "hours": 10,
+                    "minutes": 10
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "10:05",
+                    "hours": 10,
+                    "minutes": 5
+                },
+                "endTime": {
+                    "timeString": "10:45",
+                    "hours": 10,
+                    "minutes": 45
+                },
+                "totalVaccinations": 6
+            },
+            {
+                "startTime": {
+                    "timeString": "10:45",
+                    "hours": 10,
+                    "minutes": 45
+                },
+                "endTime": {
+                    "timeString": "11:25",
+                    "hours": 11,
+                    "minutes": 25
+                },
+                "totalVaccinations": 6
+            },
+            {
+                "startTime": {
+                    "timeString": "11:25",
+                    "hours": 11,
+                    "minutes": 25
+                },
+                "endTime": {
+                    "timeString": "12:05",
+                    "hours": 12,
+                    "minutes": 5
+                },
+                "totalVaccinations": 6
+            },
+            {
+                "startTime": {
+                    "timeString": "12:05",
+                    "hours": 12,
+                    "minutes": 5
+                },
+                "endTime": {
+                    "timeString": "12:45",
+                    "hours": 12,
+                    "minutes": 45
+                },
+                "totalVaccinations": 6
+            },
+            {
+                "startTime": {
+                    "timeString": "15:00",
+                    "hours": 15,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "15:34",
+                    "hours": 15,
+                    "minutes": 34
+                },
+                "totalVaccinations": 34
+            },
+            {
+                "startTime": {
+                    "timeString": "16:00",
+                    "hours": 16,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "16:55",
+                    "hours": 16,
+                    "minutes": 55
+                },
+                "totalVaccinations": 888999
+            },
+            {
+                "startTime": {
+                    "timeString": "16:55",
+                    "hours": 16,
+                    "minutes": 55
+                },
+                "endTime": {
+                    "timeString": "17:50",
+                    "hours": 17,
+                    "minutes": 50
+                },
+                "totalVaccinations": 888999
+            },
+            {
+                "startTime": {
+                    "timeString": "17:50",
+                    "hours": 17,
+                    "minutes": 50
+                },
+                "endTime": {
+                    "timeString": "18:45",
+                    "hours": 18,
+                    "minutes": 45
+                },
+                "totalVaccinations": 888999
+            },
+            {
+                "startTime": {
+                    "timeString": "18:45",
+                    "hours": 18,
+                    "minutes": 45
+                },
+                "endTime": {
+                    "timeString": "19:40",
+                    "hours": 19,
+                    "minutes": 40
+                },
+                "totalVaccinations": 888999
+            }
+        ],
+        "isNewInstance": false
+    },
+    {
+        "date": {
+            "dateString": "13.2.2001",
+            "day": 13,
+            "month": 2,
+            "year": 2001
+        },
+        "timeSpans": [
+            {
+                "startTime": {
+                    "timeString": "00:00",
+                    "hours": 0,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "00:20",
+                    "hours": 0,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "00:20",
+                    "hours": 0,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "00:40",
+                    "hours": 0,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "00:40",
+                    "hours": 0,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "01:00",
+                    "hours": 1,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "01:00",
+                    "hours": 1,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "01:20",
+                    "hours": 1,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "01:20",
+                    "hours": 1,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "01:40",
+                    "hours": 1,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "01:40",
+                    "hours": 1,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "02:00",
+                    "hours": 2,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "02:00",
+                    "hours": 2,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "02:20",
+                    "hours": 2,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "02:20",
+                    "hours": 2,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "02:40",
+                    "hours": 2,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "02:40",
+                    "hours": 2,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "03:00",
+                    "hours": 3,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "03:00",
+                    "hours": 3,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "03:20",
+                    "hours": 3,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "03:20",
+                    "hours": 3,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "03:40",
+                    "hours": 3,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "03:40",
+                    "hours": 3,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "04:00",
+                    "hours": 4,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "04:00",
+                    "hours": 4,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "04:20",
+                    "hours": 4,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "04:20",
+                    "hours": 4,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "04:40",
+                    "hours": 4,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "04:40",
+                    "hours": 4,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "05:00",
+                    "hours": 5,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "05:00",
+                    "hours": 5,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "05:20",
+                    "hours": 5,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "05:20",
+                    "hours": 5,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "05:40",
+                    "hours": 5,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "05:40",
+                    "hours": 5,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "06:00",
+                    "hours": 6,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "06:00",
+                    "hours": 6,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "06:20",
+                    "hours": 6,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "06:20",
+                    "hours": 6,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "06:40",
+                    "hours": 6,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "06:40",
+                    "hours": 6,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "07:00",
+                    "hours": 7,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "07:00",
+                    "hours": 7,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "07:20",
+                    "hours": 7,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "07:20",
+                    "hours": 7,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "07:40",
+                    "hours": 7,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "07:40",
+                    "hours": 7,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "08:00",
+                    "hours": 8,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "08:00",
+                    "hours": 8,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "08:20",
+                    "hours": 8,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "08:20",
+                    "hours": 8,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "08:40",
+                    "hours": 8,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "08:40",
+                    "hours": 8,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "09:00",
+                    "hours": 9,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "09:00",
+                    "hours": 9,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "09:20",
+                    "hours": 9,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "09:20",
+                    "hours": 9,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "09:40",
+                    "hours": 9,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "09:40",
+                    "hours": 9,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "10:00",
+                    "hours": 10,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "10:00",
+                    "hours": 10,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "10:20",
+                    "hours": 10,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
                     "timeString": "10:20",
                     "hours": 10,
                     "minutes": 20
                 },
                 "endTime": {
-                    "timeString": "10:23",
+                    "timeString": "10:40",
                     "hours": 10,
-                    "minutes": 23
+                    "minutes": 40
                 },
                 "totalVaccinations": 5
             },
             {
                 "startTime": {
-                    "timeString": "10:23",
+                    "timeString": "10:40",
                     "hours": 10,
-                    "minutes": 23
+                    "minutes": 40
                 },
                 "endTime": {
-                    "timeString": "10:26",
-                    "hours": 10,
-                    "minutes": 26
+                    "timeString": "11:00",
+                    "hours": 11,
+                    "minutes": 0
                 },
                 "totalVaccinations": 5
             },
             {
                 "startTime": {
-                    "timeString": "10:26",
-                    "hours": 10,
-                    "minutes": 26
+                    "timeString": "11:00",
+                    "hours": 11,
+                    "minutes": 0
                 },
                 "endTime": {
-                    "timeString": "10:29",
-                    "hours": 10,
-                    "minutes": 29
+                    "timeString": "11:20",
+                    "hours": 11,
+                    "minutes": 20
                 },
                 "totalVaccinations": 5
             },
             {
                 "startTime": {
-                    "timeString": "10:29",
-                    "hours": 10,
-                    "minutes": 29
+                    "timeString": "11:20",
+                    "hours": 11,
+                    "minutes": 20
                 },
                 "endTime": {
-                    "timeString": "10:32",
-                    "hours": 10,
-                    "minutes": 32
+                    "timeString": "11:40",
+                    "hours": 11,
+                    "minutes": 40
                 },
                 "totalVaccinations": 5
             },
             {
                 "startTime": {
-                    "timeString": "10:32",
-                    "hours": 10,
-                    "minutes": 32
+                    "timeString": "11:40",
+                    "hours": 11,
+                    "minutes": 40
                 },
                 "endTime": {
-                    "timeString": "10:35",
-                    "hours": 10,
-                    "minutes": 35
+                    "timeString": "12:00",
+                    "hours": 12,
+                    "minutes": 0
                 },
                 "totalVaccinations": 5
             },
             {
                 "startTime": {
-                    "timeString": "10:35",
-                    "hours": 10,
-                    "minutes": 35
+                    "timeString": "12:00",
+                    "hours": 12,
+                    "minutes": 0
                 },
                 "endTime": {
-                    "timeString": "10:38",
-                    "hours": 10,
-                    "minutes": 38
+                    "timeString": "12:20",
+                    "hours": 12,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "12:20",
+                    "hours": 12,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "12:40",
+                    "hours": 12,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "12:40",
+                    "hours": 12,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "13:00",
+                    "hours": 13,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "13:00",
+                    "hours": 13,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "13:20",
+                    "hours": 13,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "13:20",
+                    "hours": 13,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "13:40",
+                    "hours": 13,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "13:40",
+                    "hours": 13,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "14:00",
+                    "hours": 14,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "14:00",
+                    "hours": 14,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "14:20",
+                    "hours": 14,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "14:20",
+                    "hours": 14,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "14:40",
+                    "hours": 14,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "14:40",
+                    "hours": 14,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "15:00",
+                    "hours": 15,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "15:00",
+                    "hours": 15,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "15:20",
+                    "hours": 15,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "15:20",
+                    "hours": 15,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "15:40",
+                    "hours": 15,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "15:40",
+                    "hours": 15,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "16:00",
+                    "hours": 16,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "16:00",
+                    "hours": 16,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "16:20",
+                    "hours": 16,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "16:20",
+                    "hours": 16,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "16:40",
+                    "hours": 16,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "16:40",
+                    "hours": 16,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "17:00",
+                    "hours": 17,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "17:00",
+                    "hours": 17,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "17:20",
+                    "hours": 17,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "17:20",
+                    "hours": 17,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "17:40",
+                    "hours": 17,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "17:40",
+                    "hours": 17,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "18:00",
+                    "hours": 18,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "18:00",
+                    "hours": 18,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "18:20",
+                    "hours": 18,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "18:20",
+                    "hours": 18,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "18:40",
+                    "hours": 18,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "18:40",
+                    "hours": 18,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "19:00",
+                    "hours": 19,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "19:00",
+                    "hours": 19,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "19:20",
+                    "hours": 19,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "19:20",
+                    "hours": 19,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "19:40",
+                    "hours": 19,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "19:40",
+                    "hours": 19,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "20:00",
+                    "hours": 20,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "20:00",
+                    "hours": 20,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "20:20",
+                    "hours": 20,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "20:20",
+                    "hours": 20,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "20:40",
+                    "hours": 20,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "20:40",
+                    "hours": 20,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "21:00",
+                    "hours": 21,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "21:00",
+                    "hours": 21,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "21:20",
+                    "hours": 21,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "21:20",
+                    "hours": 21,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "21:40",
+                    "hours": 21,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "21:40",
+                    "hours": 21,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "22:00",
+                    "hours": 22,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "22:00",
+                    "hours": 22,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "22:20",
+                    "hours": 22,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "22:20",
+                    "hours": 22,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "22:40",
+                    "hours": 22,
+                    "minutes": 40
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "22:40",
+                    "hours": 22,
+                    "minutes": 40
+                },
+                "endTime": {
+                    "timeString": "23:00",
+                    "hours": 23,
+                    "minutes": 0
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "23:00",
+                    "hours": 23,
+                    "minutes": 0
+                },
+                "endTime": {
+                    "timeString": "23:20",
+                    "hours": 23,
+                    "minutes": 20
+                },
+                "totalVaccinations": 5
+            },
+            {
+                "startTime": {
+                    "timeString": "23:20",
+                    "hours": 23,
+                    "minutes": 20
+                },
+                "endTime": {
+                    "timeString": "23:40",
+                    "hours": 23,
+                    "minutes": 40
                 },
                 "totalVaccinations": 5
             }
