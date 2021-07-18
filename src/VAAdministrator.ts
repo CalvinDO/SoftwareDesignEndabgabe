@@ -6,10 +6,14 @@ import { VADatabase } from "./VADatabase";
 import { VAAppointmentDay } from "./VAAppointmentDay";
 import { VATimeSpan } from "./VATimeSpan";
 import { VATimeSpecification } from "./VATimeSpecification";
+import { userInfo } from "os";
+import { VAUserManager } from "./VAUserManager";
+import { VATimeRelativity } from "./VATimeRelativity";
+import { Console } from "console";
 
 export class VAAdministrator extends VAUser {
-    public static username: string = "MaxDerBoss";
-    public static password: string = "ichbinboss";
+    public static username: string = "admin";
+    public static password: string = "admin";
 
     public static currentEditedDay: VAAppointmentDay;
 
@@ -40,7 +44,7 @@ export class VAAdministrator extends VAUser {
             }
         } catch (error) {
             if (error.message == "exit") {
-                ConsoleHandling.printInput("");
+                ConsoleHandling.printInput("")
                 ConsoleHandling.printInput("You chose to exit!");
                 ConsoleHandling.printInput("");
 
@@ -80,16 +84,20 @@ export class VAAdministrator extends VAUser {
     }
 
     private async selectDayToDisplay(): Promise<void> {
-        ConsoleHandling.printInput("You chose to select a day");
+        ConsoleHandling.printInput("You chose to select a day.");
         ConsoleHandling.printInput("Which day would you like to select?");
 
-        let date: VAAppointmentDay = <VAAppointmentDay>await this.getAppointmentDataOf("date");
+        let answer: string = await ConsoleHandling.getChosenPossibilityAnswer(VADatabase.getCompactDaysPossibilities(), "Please type in the date you want to select!");
+        let date: VADate = new VADate(answer);
+        let day: VAAppointmentDay = VADatabase.getAppointmentDay(date);
 
+        day.show();
     }
 
     private async getAppointmentDataOf(_dataSpecification: string): Promise<VAAppointmentDay | VATime | VATimeSpan | number> {
         try {
             switch (_dataSpecification) {
+
                 case "date":
 
                     let date: VADate = new VADate(await ConsoleHandling.question("Please type in the date in the following format: DD(.-/)MM(.-/)YYYY  "));
@@ -100,7 +108,7 @@ export class VAAdministrator extends VAUser {
                 case "endTime":
 
                     let time: VATime = new VATime(await ConsoleHandling.question(`Please type in the ${_dataSpecification} in the following format: HH:MM  `));
-                    time.checkIfInsideDayTimeSpans(_dataSpecification);
+                    time.checkIfInsideDayTimeSpans(_dataSpecification, _dataSpecification == "endTime");
 
                     return time;
                 case "timeSpan":
@@ -173,5 +181,15 @@ export class VAAdministrator extends VAUser {
 
     private viewStatistics(): void {
 
+        this.viewStatisticsOf(VATimeRelativity.Past);
+        this.viewStatisticsOf(VATimeRelativity.Future);
+    }
+
+    private viewStatisticsOf(_relativity: VATimeRelativity) {
+        let days: VAAppointmentDay[] = VADatabase.getDaysIn(_relativity);
+        ConsoleHandling.printInput(` ${VATimeRelativity[_relativity]} Appointments: ${days.length}`);
+        days.forEach(day => {
+            day.showStatistic(_relativity);
+        });
     }
 }

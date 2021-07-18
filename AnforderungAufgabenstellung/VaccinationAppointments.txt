@@ -22,6 +22,21 @@ Der Administrator hat folgende Möglichkeiten innerhalb der App:
         - 10:00 Uhr (3)
         - 10:33 Uhr (1)
         - 11:27 Uhr (2)
+
+//Meine Version:
+
+gewähltes Datum: 21.06.2021 
+└── Freie Zeitspannen:
+	├── 3 von 5 Impfungen frei:
+	│	├── von 10:00 Uhr
+	│	└── bis 10:33 Uhr
+	├── 2 von 3 Impfungen frei:
+	│ 	├── von 10:33 Uhr
+	│	└── bis 11:27 Uhr
+	└── 1 von 4 Impfungen frei:
+	   	├── von 11:27 Uhr
+	   	└── bis 12:00 Uhr
+
     - Wenn alle Termine belegt sind, soll die Auswahlmöglichkeit deaktiviert werden und das Datum mit (100 % belegt) in der Übersicht versehen werden.
 - Statistik über alle Tage hinweg anzeigen, wie viele Termine es bereits gegeben hat und wie viele davon belegt bzw. frei sind.
   - Ebenso die Anzeige wie viele freie Termine in der Vergangenheit liegen und damit ungenutzt sind.

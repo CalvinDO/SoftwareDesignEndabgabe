@@ -24,7 +24,7 @@ export class VAUserManager {
                     } else {
 
                         ConsoleHandling.printInput("username or password is wrong! returning to the login screen.");
-                        await this.askForLogin();
+                        await this.askForLogin()
                     }
 
                     return;
@@ -33,7 +33,7 @@ export class VAUserManager {
                     this.currentUser = new VAImpfling();
                     return;
                 default:
-                    ConsoleHandling.printInput("");
+                    ConsoleHandling.printInput("")
                     ConsoleHandling.printInput("Invalid input! Please try again!");
                     ConsoleHandling.printInput("");
                     break;

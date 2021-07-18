@@ -1,4 +1,5 @@
 import { VAAdministrator } from "./VAAdministrator";
+import { VATimeSpan } from "./VATimeSpan";
 
 export class VATime {
     private hours: number;
@@ -16,12 +17,16 @@ export class VATime {
         }
 
         this.stringToHoursMinutes(":");
+
     }
 
     public static dumbToSmartTime(_dumbTime: VATime): VATime {
         return new VATime(_dumbTime.timeString);
     }
 
+    public getMinutesSinceMidnight(): number {
+        return (this.minutes + this.hours * 60);
+    }
     private stringToHoursMinutes(_seperator: string): void {
         let splitted: string[] = this.timeString.split(_seperator);
 
@@ -36,11 +41,11 @@ export class VATime {
     }
 
     public getMinutesUntil(_secondTime: VATime): number {
-        return (_secondTime.hours - this.hours) * 60 + _secondTime.minutes - this.minutes;
+        return (_secondTime.hours - this.hours) * 60 + (_secondTime.minutes - this.minutes);
     }
 
-    public checkIfInsideDayTimeSpans(_dataSpecification: string) {
-        if (VAAdministrator.currentEditedDay.isTimeJammed(this)) {
+    public checkIfInsideDayTimeSpans(_dataSpecification: string, _allowStartEquality: boolean) {
+        if (VAAdministrator.currentEditedDay.isTimeJammed(this, _allowStartEquality)) {
             throw new Error(`your  ${_dataSpecification} is jammed!`);
         }
     }
@@ -70,5 +75,17 @@ export class VATime {
 
     public is59InNight(): boolean {
         return (this.hours == 23 && this.minutes == 59);
+    }
+
+    public isBefore(_secondTime: VATime): boolean {
+        return this.getMinutesUntil(_secondTime) > 0;
+    }
+
+    public isAfter(_secondTime: VATime): boolean {
+        return this.getMinutesUntil(_secondTime) < 0;
+    }
+
+    public equals(_secondTime: VATime): boolean {
+        return this.getMinutesUntil(_secondTime) == 0;
     }
 }

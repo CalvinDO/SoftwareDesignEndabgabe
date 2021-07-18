@@ -9,7 +9,18 @@ export class VADate {
 
     private dateString: string;
 
-    constructor(_dateString: string) {
+    get Month(): number {
+        return this.month;
+    }
+
+    get Day(): number {
+        return this.day;
+    }
+
+    constructor(_dateString?: string) {
+        if (!_dateString) {
+            return;
+        }
         this.dateString = _dateString;
 
 
@@ -24,6 +35,10 @@ export class VADate {
                 this.stringToYearMonthDay(seperator);
             }
         })
+    }
+
+    public static dateToVADate(_date: Date): VADate {
+        return new VADate(`${_date.getDate()}.${_date.getMonth() + 1}.${_date.getFullYear()}`);
     }
 
     public static dumbToSmartDate(_dumbDate: VADate): VADate {
@@ -48,5 +63,47 @@ export class VADate {
 
     public toString(): string {
         return this.dateString;
+    }
+
+    public isBefore(_otherDate: VADate): boolean {
+        let dayDiff: number = this.getDayDiff(_otherDate.day);
+        let monthDiff: number = this.getMonthDiff(_otherDate.day);
+        let yearDiff: number = this.getYearDiff(_otherDate.year);
+
+
+        if (yearDiff < 0) {
+            return false;
+        }
+
+        if (yearDiff > 0) {
+            return true;
+        }
+
+        if (monthDiff < 0) {
+            return false;
+        }
+
+        if (monthDiff > 0) {
+            return true;
+        }
+
+        if (dayDiff > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public getDayDiff(_otherDay: number): number {
+        return _otherDay - this.day;
+    }
+
+    public getMonthDiff(_otherMonth: number): number {
+        return _otherMonth - this.month
+    }
+
+    public getYearDiff(_otherYear: number): number {
+        return _otherYear - this.year;
     }
 }

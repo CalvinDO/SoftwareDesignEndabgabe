@@ -1,6 +1,10 @@
 import { resolve } from 'path';
 import * as readline from 'readline';
 
+import { VAAnswerPossibility } from './VAAnswerPossibility';
+
+const chalk = require('chalk');
+
 class ConsoleHandling {
   private static instance: ConsoleHandling = new ConsoleHandling()
 
@@ -10,6 +14,7 @@ class ConsoleHandling {
     input: process.stdin,
     output: process.stdout
   });
+
 
   constructor() {
     if (ConsoleHandling.instance)
@@ -31,7 +36,7 @@ class ConsoleHandling {
 
       })
     });
-    
+
     if (answerPromise.toLocaleLowerCase() == "exit") {
       throw new Error("exit");
     }
@@ -58,6 +63,53 @@ class ConsoleHandling {
     return answerPromise;
   }
 
+  public async getChosenPossibilityAnswer(showPossibilities: VAAnswerPossibility[], question: string): Promise<string> {
+
+    this.consoleLine.write("\n")
+    this.consoleLine.write("Functions you can use: ");
+    this.consoleLine.write("\n\n");
+
+
+    for (let possibility of showPossibilities) {
+
+      let standardString: string = `---> ${possibility.answer} ${possibility.info}`;
+      let writeString: string = standardString;
+
+      if (possibility.blocked) {
+        writeString = chalk.gray(standardString);
+      }
+
+      this.consoleLine.write(writeString);
+
+      this.consoleLine.write("\n")
+
+    }
+
+    this.consoleLine.write("\n");
+
+    let answer: string = await new Promise((resolve) => this.consoleLine.question(question.toString(), (answer: string) => {
+      resolve(answer);
+    }));
+
+    if (answer.toLocaleLowerCase() == "exit") {
+      throw new Error("exit");
+    }
+
+    let foundPossiblity: VAAnswerPossibility = showPossibilities.find(possibility => possibility.answer.includes(answer));
+
+    if (!foundPossiblity) {
+      this.consoleLine.write(`${answer} was not found! Please only type one of the given possibilities, or 'exit' to exit!`);
+      return await this.getChosenPossibilityAnswer(showPossibilities, question);
+    }
+
+    if (foundPossiblity.blocked) {
+      this.consoleLine.write(`The date: ${foundPossiblity.answer} is blocked! Please type in another given possibilities, or type 'exit' to exit!`);
+      return await this.getChosenPossibilityAnswer(showPossibilities, question);
+    }
+
+    return foundPossiblity.answer;
+  }
+
   public printInput(input: string) {
     this.consoleLine.write(input);
     this.consoleLine.write("\n");
@@ -67,5 +119,7 @@ class ConsoleHandling {
     this.consoleLine.close();
   }
 }
+
+
 
 export default ConsoleHandling.getInstance();
