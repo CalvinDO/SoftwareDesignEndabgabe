@@ -34,7 +34,7 @@ export class VADatabase {
     }
 
 
-     public static isPhoneNumber(_phoneNumber: string): boolean {
+    public static isPhoneNumber(_phoneNumber: string): boolean {
         return this.phoneRegex.test(_phoneNumber);
     }
 
@@ -65,7 +65,7 @@ export class VADatabase {
         this.WaitingDBToJSON();
     }
 
-    public static getWaitingRegistrationData(_date: VADate, _startTime: VATime) {
+    public static getWaitingRegistrationData(_date: VADate, _startTime: VATime): Promise<VARegistrationData> {
         for (let regData of this.registrationDB) {
             let smartTime: VATime = VATime.dumbToSmartTime(regData.startTime);
             if (smartTime.equals(_startTime) && _date.equals(VADate.dumbToSmartDate(regData.date))) {
@@ -94,10 +94,10 @@ export class VADatabase {
         ) != undefined;
     }
 
-    public static getAllTimeSpansOf(days: VAAppointmentDay[]): VATimeSpan[] {
+    public static getAllTimeSpansOf(_days: VAAppointmentDay[]): VATimeSpan[] {
         let timeSpans: VATimeSpan[] = [];
 
-        days.forEach(day => {
+        _days.forEach(day => {
             timeSpans = timeSpans.concat(day.TimeSpans);
         });
 
@@ -160,31 +160,6 @@ export class VADatabase {
 
     public static sortAllDayDBData(): void {
         this.appointmentDB = this.appointmentDB.sort((firstDay, secondDay) => this.getDateCompareNumber(firstDay, secondDay));
-
-        /*
-        this.appointmentDB.sort((firstDay, secondDay) => firstDay.date.Month - secondDay.date.Month);
-
-        let monthlyGroupedAppointmentDB: VAAppointmentDay[][] = [];
-        let lastMonth: number = 0;
-
-        this.appointmentDB.forEach(day => {
-            if (day.date.Month > lastMonth) {
-                monthlyGroupedAppointmentDB.push([]);
-            }
-            monthlyGroupedAppointmentDB[monthlyGroupedAppointmentDB.length - 1].push(day);
-        });
-
-        this.appointmentDB = [];
-
-        monthlyGroupedAppointmentDB.forEach(daysOfMonth => {
-            daysOfMonth.sort((firstDay, secondDay) => firstDay.date.Day - secondDay.date.Day);
-            this.appointmentDB = this.appointmentDB.concat(daysOfMonth);
-        });
-
-        this.appointmentDB.forEach(day => {
-            day.sort();
-        })
-        */
     }
 
     public static addDay(_appointmentDay: VAAppointmentDay): void {

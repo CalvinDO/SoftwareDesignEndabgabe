@@ -1,6 +1,6 @@
 {
     "env": {
-        "browser": false,
+        "browser": true,
         "es2021": true
     },
     "extends": [
@@ -16,16 +16,36 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "indent": [
-            "none"
-        ],
-        "quotes": [
-            "warning",
-            "double"
+        "prefer-const": [
+            0,
+            {
+                "destructuring": "any",
+                "ignoreReadBeforeAssign": true
+            }
         ],
         "semi": [
-            "error",
+            2,
             "always"
-        ]
+        ],
+        "no-constant-condition": 0,
+        "no-var-requires": 0,
+        "@typescript-eslint/typedef-whitespace": [
+            2,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            }
+        ],
+        "@typescript-eslint/typedef": [
+            1,
+            {
+                "arrowParameter": true,
+                "variableDeclaration": true
+            }
+        ],
+        "@typescript-eslint/no-inferrable-types": 0
     }
 }
