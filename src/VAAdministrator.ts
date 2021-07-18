@@ -10,6 +10,8 @@ import { userInfo } from "os";
 import { VAUserManager } from "./VAUserManager";
 import { VATimeRelativity } from "./VATimeRelativity";
 import { Console } from "console";
+import { VADayStatistic as VAStatistics } from "./VAStatistics";
+import { times } from "lodash";
 
 export class VAAdministrator extends VAUser {
     public static username: string = "admin";
@@ -36,7 +38,7 @@ export class VAAdministrator extends VAUser {
 
                     break;
                 case "S":
-                    this.viewStatistics();
+                    this.showStatistics();
                     break;
                 default:
                     ConsoleHandling.printInput("Invalid input! Please try again!");
@@ -179,17 +181,35 @@ export class VAAdministrator extends VAUser {
         ConsoleHandling.printInput("");
     }
 
-    private viewStatistics(): void {
+    private showStatistics(): void {
+        ConsoleHandling.printInput("You chose to view the statistics of all days.");
 
-        this.viewStatisticsOf(VATimeRelativity.Past);
-        this.viewStatisticsOf(VATimeRelativity.Future);
+        ConsoleHandling.printInput("");
+        ConsoleHandling.printInput("----------------------------");
+        this.showStatisticsOf(VATimeRelativity.Past);
+        this.showStatisticsOf(VATimeRelativity.Future);
+        ConsoleHandling.printInput("----------------------------");
+        ConsoleHandling.printInput("");
+
     }
 
-    private viewStatisticsOf(_relativity: VATimeRelativity) {
+    private showStatisticsOf(_relativity: VATimeRelativity) {
         let days: VAAppointmentDay[] = VADatabase.getDaysIn(_relativity);
-        ConsoleHandling.printInput(` ${VATimeRelativity[_relativity]} Appointments: ${days.length}`);
-        days.forEach(day => {
-            day.showStatistic(_relativity);
+
+        let totalTimeSpans: VATimeSpan[] = VADatabase.getAllTimeSpansOf(days);
+
+
+        ConsoleHandling.printInput(` ${VATimeRelativity[_relativity]} Appointments: ${totalTimeSpans.length}`);
+
+        let free: number = 0;
+        let occupied: number = 0;
+
+        totalTimeSpans.forEach(timeSpan => {
+            free += timeSpan.FreeVaccinations;
+            occupied += timeSpan.OccupiedVaccinations;
         });
+
+        let statistics: VAStatistics = new VAStatistics(free, occupied);
+        statistics.print(_relativity);
     }
 }

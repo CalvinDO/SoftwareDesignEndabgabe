@@ -14,7 +14,7 @@ export class VADayStatistic {
 
         let isPast: boolean = _relativity == VATimeRelativity.Past;
 
-        ConsoleHandling.printInput(`├── ${this.free} ${isPast ? "unused" : "free"}`);
-        ConsoleHandling.printInput(`└── ${this.free} ${isPast ? "vaccinated" : "occupied"}`);
+        ConsoleHandling.printInput(`    ├── ${this.free} ${isPast ? "unused" : "free"}`);
+        ConsoleHandling.printInput(`    └── ${this.occupied} ${isPast ? "vaccinated" : "occupied"}`);
     }
 }

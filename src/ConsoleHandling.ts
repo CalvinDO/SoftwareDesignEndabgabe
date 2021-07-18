@@ -43,6 +43,10 @@ class ConsoleHandling {
     return answerPromise;
   }
 
+  public async yesNoQuestion(question: string): Promise<boolean> {
+
+  }
+
   public async showPossibilities(showPossibilities: string[], question: string): Promise<string> {
     this.consoleLine.write("\n")
     this.consoleLine.write("Functions you can use: ");
@@ -103,7 +107,7 @@ class ConsoleHandling {
     }
 
     if (foundPossiblity.blocked) {
-      this.consoleLine.write(`The date: ${foundPossiblity.answer} is blocked! Please type in another given possibilities, or type 'exit' to exit!`);
+      this.consoleLine.write(`${foundPossiblity.answer} is blocked! Please type in another given possibilities, or type 'exit' to exit!`);
       return await this.getChosenPossibilityAnswer(showPossibilities, question);
     }
 

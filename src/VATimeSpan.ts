@@ -11,10 +11,12 @@ export class VATimeSpan {
     private maxVaccinations: number;
     private registeredEmails: string[] = [];
 
-    get StartTime(): VATime { return this.startTime };
-    get EndTime(): VATime { return this.endTime };
-    get MaxVaccinations(): number { return this.maxVaccinations };
-    get AmountRegistered(): number { return this.registeredEmails.length };
+    get StartTime(): VATime { return this.startTime }
+    get EndTime(): VATime { return this.endTime }
+    get MaxVaccinations(): number { return this.maxVaccinations }
+    get AmountRegistered(): number { return this.registeredEmails.length }
+    get OccupiedVaccinations(): number { return this.AmountRegistered; }
+    get FreeVaccinations(): number { return this.MaxVaccinations - this.OccupiedVaccinations; }
 
 
     constructor(_startTime: VATime, _endTime: VATime, _maxVaccinations?: number, _registeredEmails?: string[]) {

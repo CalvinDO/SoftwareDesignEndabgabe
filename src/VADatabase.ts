@@ -1,10 +1,12 @@
 import { F_OK } from "constants";
+import { times } from "lodash";
 import ConsoleHandling from "./ConsoleHandling";
 import FileHandler from "./FileHandler";
 import { VAAnswerPossibility } from "./VAAnswerPossibility";
 import { VAAppointmentDay } from "./VAAppointmentDay";
 import { VADate } from "./VADate";
 import { VATimeRelativity } from "./VATimeRelativity";
+import { VATimeSpan } from "./VATimeSpan";
 
 export class VADatabase {
     public static appointmentDB: VAAppointmentDay[];
@@ -22,6 +24,16 @@ export class VADatabase {
         }
         this.sortAllDBData();
         this.DBToJSON();
+    }
+
+    public static getAllTimeSpansOf(days: VAAppointmentDay[]): VATimeSpan[] {
+        let timeSpans: VATimeSpan[] = [];
+
+        days.forEach(day => {
+            timeSpans = timeSpans.concat(day.TimeSpans);
+        });
+
+        return timeSpans;
     }
 
     public static getDaysIn(relativity: VATimeRelativity): VAAppointmentDay[] {
@@ -67,8 +79,21 @@ export class VADatabase {
         return possibleDays;
     }
 
-    public static sortAllDBData(): void {
+    public static getDateCompareNumber(_firstDay: VAAppointmentDay, _secondDay: VAAppointmentDay): number {
+        if (_firstDay.date.isBefore(_secondDay.date)) {
+            return -1;
+        }
 
+        if (_secondDay.date.isBefore(_firstDay.date)) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static sortAllDBData(): void {
+        this.appointmentDB = this.appointmentDB.sort((firstDay, secondDay) => this.getDateCompareNumber(firstDay, secondDay));
+
+        /*
         this.appointmentDB.sort((firstDay, secondDay) => firstDay.date.Month - secondDay.date.Month);
 
         let monthlyGroupedAppointmentDB: VAAppointmentDay[][] = [];
@@ -91,6 +116,7 @@ export class VADatabase {
         this.appointmentDB.forEach(day => {
             day.sort();
         })
+        */
     }
 
     public static addDay(_appointmentDay: VAAppointmentDay): void {

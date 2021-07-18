@@ -2,7 +2,7 @@ import { Console, time } from "console";
 import ConsoleHandling from "./ConsoleHandling";
 import { VADatabase } from "./VADatabase";
 import { VADate } from "./VADate";
-import { VADayStatistic } from "./VADayStatistic";
+import { VADayStatistic } from "./VAStatistics";
 import { VATime } from "./VATime";
 import { VATimeRelativity } from "./VATimeRelativity";
 import { VATimeSpan } from "./VATimeSpan";
@@ -16,6 +16,14 @@ export class VAAppointmentDay {
 
     get OccupancyPercentage(): number {
         return this.getOccupancyPercentage();
+    }
+
+    get TimeSpans(): VATimeSpan[] {
+        return this.timeSpans;
+    }
+
+    get AmountFreeDates(): number {
+        return this.getMaxVaccinationAmount() - this.getOccupancyAmount();
     }
 
     constructor(_date: VADate) {
@@ -34,12 +42,13 @@ export class VAAppointmentDay {
         }
     }
 
-
-    public showStatistic(relativity: VATimeRelativity): void {
-        let occupied: number = this.getOccupancyAmount();
-        let statistic: VADayStatistic = new VADayStatistic(this.getOccupancyAmount(), this.getMaxVaccinationAmount() - occupied);
-        statistic.print(relativity);
-    }
+    /*
+        public showStatistic(relativity: VATimeRelativity): void {
+            let occupied: number = this.getOccupancyAmount();
+            let statistic: VADayStatistic = new VADayStatistic(this.getOccupancyAmount(), this.getMaxVaccinationAmount() - occupied);
+            statistic.print(relativity);
+        }
+    */
 
     public sort() {
         this.timeSpans.sort((firstSpan, secondSpan) => firstSpan.StartTime.getMinutesSinceMidnight() - secondSpan.StartTime.getMinutesSinceMidnight());
