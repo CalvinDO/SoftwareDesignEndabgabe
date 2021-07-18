@@ -26,7 +26,7 @@ Der Administrator hat folgende Möglichkeiten innerhalb der App:
 //Meine Version:
 
 gewähltes Datum: 21.06.2021 
-└── Freie Zeitspannen:
+└── 30% der Zeitspannen sind frei:
 	├── 3 von 5 Impfungen frei:
 	│	├── von 10:00 Uhr
 	│	└── bis 10:33 Uhr
@@ -41,6 +41,17 @@ gewähltes Datum: 21.06.2021
 - Statistik über alle Tage hinweg anzeigen, wie viele Termine es bereits gegeben hat und wie viele davon belegt bzw. frei sind.
   - Ebenso die Anzeige wie viele freie Termine in der Vergangenheit liegen und damit ungenutzt sind.
   - Ebenso die Anzeige wie viele freie Termine es aktuell in der Zukunft gibt.
+
+21.06.2020  14.07.2020  15.08.2020
+
+Vergangene Termine: 23
+├── 10 ungenutzt
+├── 13 geimpft
+Zukünftige Termine: 15
+├── 10 frei
+├── 13 belegt
+	
+
 
 Bei der Anlage von neuen Terminen hat der Administrator die Möglichkeit den Tag, den Zeitraum, gleichzeitige Impfungen und die Zeitabstände der Termine auszuwählen, bspw.:
 

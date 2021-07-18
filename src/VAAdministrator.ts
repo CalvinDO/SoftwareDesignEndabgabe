@@ -81,6 +81,7 @@ export class VAAdministrator extends VAUser {
         ConsoleHandling.printInput(`Appointment Generation finished! Generated ${timeSpans.length} time spans!`);
         ConsoleHandling.printInput("Above you can see the time spans of the appointments you have generated");
 
+        VAAdministrator.currentEditedDay.assignEmailFromWaitingList();
 
         VADatabase.addDay(VAAdministrator.currentEditedDay);
     }
@@ -137,7 +138,7 @@ export class VAAdministrator extends VAUser {
                     }
                     return +timeInterval;
                 default:
-                    
+
                     break;
             }
         } catch (error: any) {

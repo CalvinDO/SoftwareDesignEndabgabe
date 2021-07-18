@@ -2,10 +2,11 @@ import { F_OK } from "constants";
 import { times } from "lodash";
 import ConsoleHandling from "./ConsoleHandling";
 import FileHandler from "./FileHandler";
-import { RegistrationData } from "./RegistrationData";
+import { VARegistrationData as VARegistrationData } from "./RegistrationData";
 import { VAAnswerPossibility } from "./VAAnswerPossibility";
 import { VAAppointmentDay } from "./VAAppointmentDay";
 import { VADate } from "./VADate";
+import { VATime } from "./VATime";
 import { VATimeRelativity } from "./VATimeRelativity";
 import { VATimeSpan } from "./VATimeSpan";
 
@@ -14,7 +15,8 @@ export class VADatabase {
 
 
     public static appointmentDB: VAAppointmentDay[];
-    public static registrationDB: RegistrationData[];
+    public static registrationDB: VARegistrationData[];
+    public static waitingListDB: VARegistrationData[];
 
     public static emailRegex: RegExp =
         /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -23,17 +25,10 @@ export class VADatabase {
 
     public static phoneRegex: RegExp = /(\(? ([\d \-\) \–\+\/\(]+)\)?([ .\-–\/]?)([\d]+))/;
 
-    public static init(): void {
 
-        try {
-            this.JSONToDB()
-        } catch (error) {
-            if (error.message == "Unexpected end of JSON input") {
-                this.appointmentDB = [];
-            } else {
-                throw error;
-            }
-        }
+    public static init(): void {
+        this.JSONToDB()
+
         this.sortAllDayDBData();
         this.AppointmentDBToJSON();
     }
@@ -51,19 +46,35 @@ export class VADatabase {
         return totalFreeDates <= 0;
     }
 
-    public static addRegistrationData(regData: RegistrationData): void {
-        this.registrationDB.push(regData);
+    public static addRegistrationData(_regData: VARegistrationData): void {
+        this.registrationDB.push(_regData);
 
-        this.sendConfirmationEmail(regData);
+        this.sendConfirmationEmail(_regData);
 
         this.RegistrationDBToJSON();
         this.AppointmentDBToJSON();
     }
 
-    private static sendConfirmationEmail(regData: RegistrationData) {
+    public static addWaitingRegistrationData(_regData: VARegistrationData): void {
+        this.waitingListDB.push(_regData);
+
+        this.WaitingDBToJSON();
+    }
+
+    public static getWaitingRegistrationData(_date: VADate, _startTime: VATime) {
+        for (let regData of this.registrationDB) {
+            let smartTime: VATime = VATime.dumbToSmartTime(regData.startTime);
+            if (smartTime.equals(_startTime) && _date.equals(VADate.dumbToSmartDate(regData.date))) {
+                return regData;
+            }
+        }
+    }
+
+
+    private static sendConfirmationEmail(_regData: VARegistrationData) {
         console.warn("A confirmation was send to your email adress!");
         ConsoleHandling.printInput("You registrated with following data:");
-        console.log(regData);
+        console.log(_regData);
     }
 
     public static isEmailAlreadyUsed(_email: string): boolean {
@@ -207,6 +218,10 @@ export class VADatabase {
         FileHandler.writeFile("registrationDB.json", this.registrationDB);
     }
 
+    private static WaitingDBToJSON(): void {
+        FileHandler.writeFile("waitingDB.json", this.waitingListDB);
+    }
+
     private static JSONToDB(): void {
 
         let dumbAppointmentDB: VAAppointmentDay[] = <VAAppointmentDay[]>FileHandler.readObjectFile("appointmentDB.json");
@@ -217,6 +232,7 @@ export class VADatabase {
 
         this.appointmentDB = smartAppointmentDB;
 
-        this.registrationDB = <RegistrationData[]>FileHandler.readObjectFile("registrationDB.json");
+        this.registrationDB = <VARegistrationData[]>FileHandler.readObjectFile("registrationDB.json");
+        this.waitingListDB = <VARegistrationData[]>FileHandler.readObjectFile("waitingDB.json");
     }
 }

@@ -5,11 +5,14 @@ import { VAAppointmentDay } from "./VAAppointmentDay";
 import { VADatabase } from "./VADatabase";
 import { VADate } from "./VADate";
 import { VATime } from "./VATime";
+import { VARegistrationData } from "./RegistrationData";
 import { VATimeSpan } from "./VATimeSpan";
 
 export class VAImpfling {
 
     private currentRegistrationDay: VAAppointmentDay;
+    private currentTimeSpan: VATimeSpan;
+
 
     private startMenuPossibilities: VAAnswerPossibility[] = [new VAAnswerPossibility("O", " See Overview of vaccinations "), new VAAnswerPossibility("S", "Search for a specific day to see it's detail")];
 
@@ -42,7 +45,6 @@ export class VAImpfling {
                     ConsoleHandling.printInput("Invalid input! Please try again!");
                     break;
             }
-
         } catch (error) {
 
             if (error.message == "exit") {
@@ -84,32 +86,35 @@ export class VAImpfling {
 
         if (wantRegister) {
 
-            await this.registerForDay(day);
+            let regData: VARegistrationData = await this.getRegistrationDataForDay(day);
+            this.currentTimeSpan.registerEmail(regData.email);
+
+            VADatabase.addRegistrationData(regData);
+
+            ConsoleHandling.printInput("You are successfully registered for this vaccination! Congratulations and stay healthy ");
+            this.currentRegistrationDay = null;
+            this.currentTimeSpan = null;
             ConsoleHandling.printInput("You will now come back to the start menu");
 
             return;
         }
     }
 
-    private async registerForDay(day: VAAppointmentDay): Promise<void> {
+    private async getRegistrationDataForDay(day: VAAppointmentDay, waiting?: boolean): Promise<VARegistrationData> {
         this.currentRegistrationDay = day;
 
-        let timeSpan: VATimeSpan = <VATimeSpan>await this.getRegistrationDataOf("startTime");
-        let email: string = <string>await this.getRegistrationDataOf("email");
-        let forename: string = <string>await this.getRegistrationDataOf("forename");
-        let surname: string = <string>await this.getRegistrationDataOf("surname");
-        let birthDate: string = <string>await this.getRegistrationDataOf("birthDate");
-        let phoneNumber: string = <string>await this.getRegistrationDataOf("phoneNumber");
-        let adress: string = <string>await this.getRegistrationDataOf("adress");
+        this.currentTimeSpan = <VATimeSpan>await this.getRegistrationDataOf("startTime", waiting);
+        let email: string = <string>await this.getRegistrationDataOf("email", waiting);
+        let forename: string = <string>await this.getRegistrationDataOf("forename", waiting);
+        let surname: string = <string>await this.getRegistrationDataOf("surname", waiting);
+        let birthDate: string = <string>await this.getRegistrationDataOf("birthDate", waiting);
+        let phoneNumber: string = <string>await this.getRegistrationDataOf("phoneNumber", waiting);
+        let adress: string = <string>await this.getRegistrationDataOf("adress", waiting);
 
-        timeSpan.registerEmail(email);
-        VADatabase.addRegistrationData({ email: email, forename: forename, surname: surname, birthDate: birthDate, phoneNumber: phoneNumber, adress: adress });
-
-        ConsoleHandling.printInput("You are successfully registered for this vaccination! Congratulations and stay healthy ");
-
+        return { email: email, date: this.currentRegistrationDay.date, startTime: this.currentTimeSpan.StartTime, forename: forename, surname: surname, birthDate: birthDate, phoneNumber: phoneNumber, adress: adress };
     }
 
-    private async getRegistrationDataOf(_dataSpecification: string): Promise<VATimeSpan | string | VADate> {
+    private async getRegistrationDataOf(_dataSpecification: string, waiting?: boolean): Promise<VATimeSpan | VATime | string | VADate> {
 
         try {
 
@@ -117,6 +122,10 @@ export class VAImpfling {
                 case "startTime":
 
                     let startTime: VATime = new VATime(await ConsoleHandling.question("Pleae type in the start time you want to register for in the following format: HH:MM "));
+
+                    if (waiting) {
+                        return startTime;
+                    }
 
                     let foundSpan: VATimeSpan = this.currentRegistrationDay.findSpanByStartTime(startTime);
 
@@ -194,6 +203,26 @@ export class VAImpfling {
     }
 
     private async registerInWaitingList(): Promise<void> {
+        ConsoleHandling.printInput("You chose to register in the waiting list!");
 
+        let day: VAAppointmentDay = new VAAppointmentDay(await this.getWaitingDay());
+
+
+        let regData: VARegistrationData = await this.getRegistrationDataForDay(day, true);
+        VADatabase.addWaitingRegistrationData(regData);
+    }
+
+    private async getWaitingDay(): Promise<VADate> {
+        try {
+            let date: VADate = new VADate(await ConsoleHandling.question("Please type in the date you want to get vaccinated in the following format:  DD(.-/)MM(.-/)YYYY"));
+            return date;
+        } catch (error: any) {
+            if (error.message == "exit") {
+                throw new Error("exit");
+            } else {
+                ConsoleHandling.printInput(error.message);
+                ConsoleHandling.printInput("Please try again, or type 'exit' at any time to leave");
+            }
+        }
     }
 }

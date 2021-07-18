@@ -1,5 +1,7 @@
 import { Console, time } from "console";
+import { times } from "lodash";
 import ConsoleHandling from "./ConsoleHandling";
+import { VARegistrationData } from "./RegistrationData";
 import { VADatabase } from "./VADatabase";
 import { VADate } from "./VADate";
 import { VADayStatistic } from "./VAStatistics";
@@ -38,6 +40,17 @@ export class VAAppointmentDay {
                 ConsoleHandling.printInput("This day already has appointments. We will add your new appointments to this day!");
 
                 return this.proceedWithFoundDay(foundDay);
+            }
+        }
+    }
+
+    public assignEmailFromWaitingList(): void {
+        for (let timeSpan of this.timeSpans) {
+            let waitingRegData: VARegistrationData = VADatabase.getWaitingRegistrationData(this.date, timeSpan.StartTime);
+            if (waitingRegData) {
+                timeSpan.registerEmail(waitingRegData.email);
+                console.log(waitingRegData.email + "got automatically assigned!");
+                return;
             }
         }
     }
