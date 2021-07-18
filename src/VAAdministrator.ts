@@ -137,14 +137,14 @@ export class VAAdministrator extends VAUser {
                     }
                     return +timeInterval;
                 default:
-
+                    
                     break;
             }
         } catch (error: any) {
             if (error.message == "exit") {
                 throw new Error("exit");
             } else {
-                ConsoleHandling.printInput("unknown system error: " + error.message);
+                ConsoleHandling.printInput(error.message);
             }
         }
 

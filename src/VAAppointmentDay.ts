@@ -42,14 +42,11 @@ export class VAAppointmentDay {
         }
     }
 
-    /*
-        public showStatistic(relativity: VATimeRelativity): void {
-            let occupied: number = this.getOccupancyAmount();
-            let statistic: VADayStatistic = new VADayStatistic(this.getOccupancyAmount(), this.getMaxVaccinationAmount() - occupied);
-            statistic.print(relativity);
-        }
-    */
 
+    public findSpanByStartTime(startTime: VATime): VATimeSpan {
+        return this.timeSpans.find(timeSpan => timeSpan.StartTime.equals(startTime));
+
+    }
     public sort() {
         this.timeSpans.sort((firstSpan, secondSpan) => firstSpan.StartTime.getMinutesSinceMidnight() - secondSpan.StartTime.getMinutesSinceMidnight());
     }

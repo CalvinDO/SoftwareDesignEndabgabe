@@ -1,31 +1,42 @@
+import { start } from "repl";
 import ConsoleHandling from "./ConsoleHandling";
+import { VAAnswerPossibility } from "./VAAnswerPossibility";
 import { VAAppointmentDay } from "./VAAppointmentDay";
 import { VADatabase } from "./VADatabase";
 import { VADate } from "./VADate";
+import { VATime } from "./VATime";
+import { VATimeSpan } from "./VATimeSpan";
 
 export class VAImpfling {
-    constructor() {
-        this.startMenuLoop();
-    }
 
-    private async startMenuLoop(): Promise<void> {
-        ConsoleHandling.printInput("Hello Impfling :)")
+    private currentRegistrationDay: VAAppointmentDay;
+
+    private startMenuPossibilities: VAAnswerPossibility[] = [new VAAnswerPossibility("O", " See Overview of vaccinations "), new VAAnswerPossibility("S", "Search for a specific day to see it's detail")];
+
+    constructor() {
+        ConsoleHandling.printInput("Hello Impfling :)");
+
+        if (VADatabase.areNoFreeDatesAvailable()) {
+            this.startMenuPossibilities.push(new VAAnswerPossibility("R", "Register in waiting list"))
+        }
         this.startMenu();
     }
 
     private async startMenu(): Promise<void> {
+        if (this.startMenuPossibilities.length > 2) {
+            ConsoleHandling.printInput("There are no free vaccinations, but you can register in a waiting list!");
+        }
         try {
 
-
-            switch ((await ConsoleHandling.showPossibilities(["See Overview of free dates (O)", "Search for a specific day to see it's detail (S)", "Register in waiting list (W)"], "What do you want to do?")).toUpperCase()) {
+            switch (await ConsoleHandling.getChosenPossibilityAnswer(this.startMenuPossibilities, "What do you want to do?")) {
                 case "O":
                     await this.overviewDays();
                     break;
                 case "S":
-                    this.searchDay();
+                    await this.searchDay();
                     break;
                 case "R":
-                    this.registerInWaitingList();
+                    await this.registerInWaitingList();
                     break;
                 default:
                     ConsoleHandling.printInput("Invalid input! Please try again!");
@@ -54,17 +65,135 @@ export class VAImpfling {
         let date: VADate = new VADate(answer);
         let day: VAAppointmentDay = VADatabase.getAppointmentDay(date);
 
+        await this.continueWithSelectedDay(day);
+
+        ConsoleHandling.printInput("You will get back to the overview. If you want to stop, type 'exit'");
+        return await this.overviewDays();
+    }
+
+    private async continueWithSelectedDay(day: VAAppointmentDay): Promise<void> {
         day.show();
 
-        let wantRegisterString: string = await ConsoleHandling.showPossibilities(["Y"], `This day has ${day.AmountFreeDates} free vaccination dates! Do you want to register for it?`);
+        if (day.AmountFreeDates <= 0) {
+            ConsoleHandling.printInput("Sorry, this day has no free dates to register for");
+            ConsoleHandling.printInput("You will get back to the overview. If you want to stop, type 'exit'");
+            return await this.overviewDays();
+        }
+
+        let wantRegister: boolean = await ConsoleHandling.yesNoPossibilities(`This day has ${day.AmountFreeDates} free vaccination dates! Do you want to register for it?`);
+
+        if (wantRegister) {
+
+            await this.registerForDay(day);
+            ConsoleHandling.printInput("You will now come back to the start menu");
+
+            return;
+        }
+    }
+
+    private async registerForDay(day: VAAppointmentDay): Promise<void> {
+        this.currentRegistrationDay = day;
+
+        let timeSpan: VATimeSpan = <VATimeSpan>await this.getRegistrationDataOf("startTime");
+        let email: string = <string>await this.getRegistrationDataOf("email");
+        let forename: string = <string>await this.getRegistrationDataOf("forename");
+        let surname: string = <string>await this.getRegistrationDataOf("surname");
+        let birthDate: string = <string>await this.getRegistrationDataOf("birthDate");
+        let phoneNumber: string = <string>await this.getRegistrationDataOf("phoneNumber");
+        let adress: string = <string>await this.getRegistrationDataOf("adress");
+
+        timeSpan.registerEmail(email);
+        VADatabase.addRegistrationData({ email: email, forename: forename, surname: surname, birthDate: birthDate, phoneNumber: phoneNumber, adress: adress });
+
+        ConsoleHandling.printInput("You are successfully registered for this vaccination! Congratulations and stay healthy ");
 
     }
 
-    private searchDay(): void {
+    private async getRegistrationDataOf(_dataSpecification: string): Promise<VATimeSpan | string | VADate> {
 
+        try {
+
+            switch (_dataSpecification) {
+                case "startTime":
+
+                    let startTime: VATime = new VATime(await ConsoleHandling.question("Pleae type in the start time you want to register for in the following format: HH:MM "));
+
+                    let foundSpan: VATimeSpan = this.currentRegistrationDay.findSpanByStartTime(startTime);
+
+                    if (!foundSpan) {
+                        throw new Error("Your input start time is either occupied or doesn't show up at your selected day!");
+                    }
+
+                    return foundSpan;
+                case "email":
+
+                    let email: string = await ConsoleHandling.question("Pleae type in your email: ");
+
+                    if (!VADatabase.emailRegex.test(email)) {
+                        throw new Error("Your email is not a valid email!");
+                    }
+
+                    if (VADatabase.isEmailAlreadyUsed(email)) {
+                        throw new Error("Your email is already in use! You can only register for one vaccination!");
+                    }
+
+                    return email;
+                case "forename":
+                case "surname":
+
+                    let name: string = await ConsoleHandling.question(`Please type in the ${_dataSpecification}: `);
+                    if (!VADatabase.nameRegex.test(name)) {
+                        throw new Error("Your name contains invalid characters!");
+                    }
+                    return name;
+
+                case "birthDate":
+
+                    let birthDay: VADate = new VADate(await ConsoleHandling.question("Please type in your birthdate in the following format: DD(.-/)MM(.-/)YYYY "));
+                    return birthDay;
+
+                case "phoneNumber":
+
+                    let phoneNumberString: string = await ConsoleHandling.question("Please type in your phone number: ");
+
+                    if (!VADatabase.phoneRegex.test(phoneNumberString)) {
+                        throw new Error("Your phone number is invalid!");
+                    }
+                    return phoneNumberString;
+                case "adress":
+
+                    let adress: string = await ConsoleHandling.question("Please type in your whole adress: ");
+                    return adress;
+                default:
+
+                    break;
+            }
+        } catch (error: any) {
+            if (error.message == "exit") {
+                throw new Error("exit");
+            } else {
+                ConsoleHandling.printInput(error.message);
+                ConsoleHandling.printInput("Please try again, or type 'exit' at any time to leave");
+            }
+        }
+
+        return await this.getRegistrationDataOf(_dataSpecification);
     }
 
-    private registerInWaitingList(): void {
+    private async searchDay(): Promise<void> {
+        ConsoleHandling.printInput("You chose to search for a specific day!");
+
+        let answer: string = await ConsoleHandling.getChosenPossibilityAnswer(VADatabase.getCompactDaysPossibilities(), "Above you can see the dates to search for. Just type in the date in the following format:  DD(.-/)MM(.-/)YYYY \nIf you want to leave, just type 'exit'");
+        let date: VADate = new VADate(answer);
+        let day: VAAppointmentDay = VADatabase.getAppointmentDay(date);
+
+        await this.continueWithSelectedDay(day);
+
+        ConsoleHandling.printInput("You will get back to the searchDay Interface. If you want to stop, type 'exit'");
+        return await this.searchDay();
+    }
+
+    private async registerInWaitingList(): Promise<void> {
 
     }
 }

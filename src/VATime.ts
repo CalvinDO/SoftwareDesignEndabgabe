@@ -10,9 +10,9 @@ export class VATime {
     constructor(_timeString: string) {
         this.timeString = _timeString;
 
-        let regex: RegExp = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+        let timeRegex: RegExp = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 
-        if (!regex.test(this.timeString)) {
+        if (!timeRegex.test(this.timeString)) {
             throw new Error("Your time is invalid!");
         }
 

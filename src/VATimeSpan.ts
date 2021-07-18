@@ -6,6 +6,7 @@ import { VATime } from "./VATime";
 
 export class VATimeSpan {
 
+
     private startTime: VATime;
     private endTime: VATime;
     private maxVaccinations: number;
@@ -17,7 +18,7 @@ export class VATimeSpan {
     get AmountRegistered(): number { return this.registeredEmails.length }
     get OccupiedVaccinations(): number { return this.AmountRegistered; }
     get FreeVaccinations(): number { return this.MaxVaccinations - this.OccupiedVaccinations; }
-
+    get RegisteredEmails(): string[] { return this.registeredEmails }
 
     constructor(_startTime: VATime, _endTime: VATime, _maxVaccinations?: number, _registeredEmails?: string[]) {
         this.startTime = _startTime.clone();
@@ -27,6 +28,10 @@ export class VATimeSpan {
         if (_registeredEmails) {
             this.registeredEmails = _registeredEmails;
         }
+    }
+
+    public registerEmail(email: string) {
+        this.registeredEmails.push(email);
     }
 
     public printFormated(_isLast: boolean): void {
@@ -86,7 +91,6 @@ export class VATimeSpan {
     public overlaps(_time: (VATime | VATimeSpan), _allowStartEquality?: boolean): boolean {
         if (_time instanceof VATime) {
             let time: VATime = <VATime>_time;
-            //console.log(`check if startTime ${this.startTime.toString()} is before or equals ${time.toString()} && endTime ${this.endTime.toString()} is after ${time.toString()}`);
             let startsBeforeTime: boolean = this.startTime.isBefore(time);
             let startsAtTime: boolean = _allowStartEquality ? false : this.startTime.equals(time);
             let endAfterTime: boolean = this.endTime.isAfter(time);
@@ -96,8 +100,6 @@ export class VATimeSpan {
 
         if (_time instanceof VATimeSpan) {
             let timeSpan: VATimeSpan = <VATimeSpan>_time;
-            //console.log(`current input time span for new appointments: ${timeSpan.toString()}`);
-            //console.log(`check overlap with ${this.startTime.toString()} - ${this.endTime.toString()}`);
             return (timeSpan.overlaps(this.startTime, false) || timeSpan.overlaps(this.endTime, true));
         }
     }

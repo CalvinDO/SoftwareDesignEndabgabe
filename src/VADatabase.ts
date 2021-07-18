@@ -2,6 +2,7 @@ import { F_OK } from "constants";
 import { times } from "lodash";
 import ConsoleHandling from "./ConsoleHandling";
 import FileHandler from "./FileHandler";
+import { RegistrationData } from "./RegistrationData";
 import { VAAnswerPossibility } from "./VAAnswerPossibility";
 import { VAAppointmentDay } from "./VAAppointmentDay";
 import { VADate } from "./VADate";
@@ -9,7 +10,18 @@ import { VATimeRelativity } from "./VATimeRelativity";
 import { VATimeSpan } from "./VATimeSpan";
 
 export class VADatabase {
+
+
+
     public static appointmentDB: VAAppointmentDay[];
+    public static registrationDB: RegistrationData[];
+
+    public static emailRegex: RegExp =
+        /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+
+    public static nameRegex: RegExp = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+
+    public static phoneRegex: RegExp = /(\(? ([\d \-\) \–\+\/\(]+)\)?([ .\-–\/]?)([\d]+))/;
 
     public static init(): void {
 
@@ -22,8 +34,49 @@ export class VADatabase {
                 throw error;
             }
         }
-        this.sortAllDBData();
-        this.DBToJSON();
+        this.sortAllDayDBData();
+        this.AppointmentDBToJSON();
+    }
+
+
+    public static areNoFreeDatesAvailable(): boolean {
+        let totalFreeDates: number = 0;
+
+        this.appointmentDB.forEach(day => {
+            day.TimeSpans.forEach(timeSpan => {
+                totalFreeDates += timeSpan.FreeVaccinations;
+            })
+        })
+
+        return totalFreeDates <= 0;
+    }
+
+    public static addRegistrationData(regData: RegistrationData): void {
+        this.registrationDB.push(regData);
+
+        this.sendConfirmationEmail(regData);
+
+        this.RegistrationDBToJSON();
+        this.AppointmentDBToJSON();
+    }
+
+    private static sendConfirmationEmail(regData: RegistrationData) {
+        console.warn("A confirmation was send to your email adress!");
+        ConsoleHandling.printInput("You registrated with following data:");
+        console.log(regData);
+    }
+
+    public static isEmailAlreadyUsed(_email: string): boolean {
+        return this.appointmentDB.find(
+            day =>
+                day.TimeSpans.find(
+                    timeSpan =>
+                        timeSpan.RegisteredEmails.find(
+                            email =>
+                                email == _email
+                        )
+                )
+        ) != undefined;
     }
 
     public static getAllTimeSpansOf(days: VAAppointmentDay[]): VATimeSpan[] {
@@ -90,7 +143,7 @@ export class VADatabase {
         return 0;
     }
 
-    public static sortAllDBData(): void {
+    public static sortAllDayDBData(): void {
         this.appointmentDB = this.appointmentDB.sort((firstDay, secondDay) => this.getDateCompareNumber(firstDay, secondDay));
 
         /*
@@ -125,8 +178,8 @@ export class VADatabase {
             this.appointmentDB.push(_appointmentDay);
         }
 
-        this.sortAllDBData();
-        this.DBToJSON();
+        this.sortAllDayDBData();
+        this.AppointmentDBToJSON();
     }
 
     public static getAppointmentDay(_date: VADate): VAAppointmentDay {
@@ -146,8 +199,12 @@ export class VADatabase {
         ConsoleHandling.printInput(JSON.stringify(this.appointmentDB));
     }
 
-    private static DBToJSON(): void {
+    private static AppointmentDBToJSON(): void {
         FileHandler.writeFile("appointmentDB.json", this.appointmentDB);
+
+    }
+    private static RegistrationDBToJSON(): void {
+        FileHandler.writeFile("registrationDB.json", this.registrationDB);
     }
 
     private static JSONToDB(): void {
@@ -159,5 +216,7 @@ export class VADatabase {
         })
 
         this.appointmentDB = smartAppointmentDB;
+
+        this.registrationDB = <RegistrationData[]>FileHandler.readObjectFile("registrationDB.json");
     }
 }

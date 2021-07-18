@@ -43,8 +43,19 @@ class ConsoleHandling {
     return answerPromise;
   }
 
-  public async yesNoQuestion(question: string): Promise<boolean> {
+  public async yesNoPossibilities(question: string): Promise<boolean> {
+    let answer: string = await this.showPossibilities(["(Y) Yes", "(N) No"], question);
 
+    switch (answer.toUpperCase()) {
+      case "Y":
+        return true;
+      case "N":
+        return false;
+      default:
+        this.consoleLine.write("Invalid input! Please type in 'Y' or 'N'");
+        return this.yesNoPossibilities(question);
+        break;
+    }
   }
 
   public async showPossibilities(showPossibilities: string[], question: string): Promise<string> {
@@ -99,7 +110,7 @@ class ConsoleHandling {
       throw new Error("exit");
     }
 
-    let foundPossiblity: VAAnswerPossibility = showPossibilities.find(possibility => possibility.answer.includes(answer));
+    let foundPossiblity: VAAnswerPossibility = showPossibilities.find(possibility => possibility.answer.toUpperCase().includes(answer.toUpperCase()));
 
     if (!foundPossiblity) {
       this.consoleLine.write(`${answer} was not found! Please only type one of the given possibilities, or 'exit' to exit!`);
