@@ -165,7 +165,7 @@ export class VAImpfling {
 
                     let phoneNumberString: string = await ConsoleHandling.question("Please type in your phone number: ");
 
-                    if (!VADatabase.phoneRegex.test(phoneNumberString)) {
+                    if (!VADatabase.isPhoneNumber(phoneNumberString)) {
                         throw new Error("Your phone number is invalid!");
                     }
                     return phoneNumberString;

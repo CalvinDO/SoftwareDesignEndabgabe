@@ -27,12 +27,16 @@ export class VADatabase {
 
 
     public static init(): void {
-        this.JSONToDB()
+        this.JSONToDB();
 
         this.sortAllDayDBData();
         this.AppointmentDBToJSON();
     }
 
+
+     public static isPhoneNumber(_phoneNumber: string): boolean {
+        return this.phoneRegex.test(_phoneNumber);
+    }
 
     public static areNoFreeDatesAvailable(): boolean {
         let totalFreeDates: number = 0;
